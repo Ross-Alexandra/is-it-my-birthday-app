@@ -1,0 +1,45 @@
+#!/bin/sh
+
+# This script will setup a set of environment functions which make it more
+# convenient to work within the is-it-my-birthday project.
+#
+# To use this script, run the following command:
+#
+#   $ source bin/activate
+#
+# You can then run the following command to deactivate this script:
+#
+#   $ deactivate
+# 
+# Alternatively you can run the following command to refresh the script:
+#
+#   $ refresh
+
+# Setup a prompt prefix which will be displayed in the terminal. This will
+# make it easier to identify whether or not the virtual environment is active.
+if [[ "$PS1" =~ ^\(iimb\).* ]]; then
+    PS1=$PS1
+else
+    export PS1="(iimb) $PS1"
+fi
+
+# Define the IIMB_HOME environment variable relative to the v2 directory. This
+# will make it significantly easier to run bin scripts from the command line.
+export IIMB_HOME="$( cd "$( dirname "$( dirname "${BASH_SOURCE[0]}" )" )" && pwd )"
+
+# Source all the .sh files in the bin directory.
+for file in $IIMB_HOME/bin/*.sh; do
+    source $file
+done
+
+function deactivate {
+    # Deactivate the virtual environment.
+    unset IIMB_HOME
+    unset PS1
+    $SHELL
+}
+
+function refresh {
+    # Refresh the virtual environment.
+    source $IIMB_HOME/bin/activate
+}
