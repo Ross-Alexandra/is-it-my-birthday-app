@@ -5,7 +5,7 @@ const config: CapacitorConfig = {
   appName: 'is-it-my-birthday',
   webDir: 'dist',
   server: {
-    androidScheme: 'https'
+    cleartext: true,
   }
 };
 
