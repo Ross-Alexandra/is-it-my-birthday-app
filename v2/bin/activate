@@ -3,6 +3,9 @@
 # This script will setup a set of environment functions which make it more
 # convenient to work within the is-it-my-birthday project.
 #
+# NOTE: If you are creating new scripts, and need access to environment variables
+# Please prefix them with IIMB_ to avoid conflicts with other scripts.
+#
 # To use this script, run the following command:
 #
 #   $ source bin/activate
@@ -34,7 +37,7 @@ done
 
 function deactivate {
     # Deactivate the virtual environment.
-    unset IIMB_HOME
+    unset "${!IIMB_@}"
     unset PS1
     $SHELL
 }
