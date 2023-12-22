@@ -1,0 +1,7 @@
+{
+  "name": "is-it-my-birthday",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue"
+}
