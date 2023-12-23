@@ -1,15 +1,18 @@
 <template>
-    <h1>Home!</h1>
-    <router-link to="/login">login</router-link>
-    <router-link to="/register">register</router-link>
+    <hero-banner />
+    <date-box />
+    <div class="separator"/>
+    <user-leaderboard />
 </template>
 
 <script setup lang="ts">
-import { RouterLink } from 'vue-router';
+import DateBox from '@/apps/home/components/date-box.vue';
+import HeroBanner from '@/apps/home/components/hero-banner.vue';
+import UserLeaderboard from '@/apps/home/components/user-leaderboard.vue';
 </script>
 
 <style scoped>
-h1 {
-    color: red;
+.separator {
+    height: 100px;
 }
 </style>

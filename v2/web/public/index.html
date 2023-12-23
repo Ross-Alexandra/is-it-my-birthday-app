@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>Ionic App</title>
+    <title>Is today YOUR birthday?</title>
 
     <base href="/" />
 
@@ -14,12 +14,93 @@
     <meta name="format-detection" content="telephone=no" />
     <meta name="msapplication-tap-highlight" content="no" />
 
-    <link rel="shortcut icon" type="image/png" href="<%= BASE_URL %>assets/icon/favicon.png" />
+    <link rel="shortcut icon" type="image/png" href="<%= BASE_URL %>assets/icon/favicon.ico" />
 
     <!-- add to homescreen for ios -->
     <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-title" content="Ionic App" />
+    <meta name="apple-mobile-web-app-title" content="Is it my birthday" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+    <style>
+        * {
+            box-sizing: border-box;
+
+            --primary-font-color: #001728;
+            --secondary-font-color: #ffffff;
+            
+            --primary-color: #adc3be;
+            --secondary-color: #edb36c;
+            --background-color: #ffdbc1;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6,
+        p {
+            font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            color: var(--primary-font-color);
+        }
+
+        button.btn {
+            border: 0px;
+            border-radius: 10000px;
+            padding: 10px 20px;
+
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            box-shadow: inset 0 -4px 5px -3px rgba(0, 0, 0, 0.3); /* Inner shadow effect */
+
+            transition: filter 0.2s ease-in-out;
+        }
+
+        button.btn:hover {
+            filter: brightness(1.1);
+        }
+
+        button.btn:active {
+            filter: brightness(0.9);
+        }
+
+        button.btn-primary {
+            background-color: var(--secondary-color);
+            color: var(--primary-font-color);
+        }
+
+        body {
+            margin: 0px;
+        }
+
+        body:before {
+            position: fixed;
+            content: '';
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: -1;
+
+            filter: blur(4px);
+            background-image: 
+                linear-gradient(
+                    to bottom,
+                    rgba(0, 0, 0, 0.3),
+                    rgba(0, 0, 0, 0.5)
+                ),
+                url('/assets/background.png'),
+                linear-gradient(
+                    to bottom,
+                    var(--background-color),
+                    var(--background-color)
+                );
+            background-size: cover;
+        }
+    </style>
   </head>
 
   <body>
