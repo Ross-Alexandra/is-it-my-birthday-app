@@ -1,2 +1,0 @@
-"use strict";(globalThis["webpackChunkis_it_my_birthday"]=globalThis["webpackChunkis_it_my_birthday"]||[]).push([[917],{917:(i,t,e)=>{e.r(t),e.d(t,{default:()=>n});var a=e(252),r=e(262),s=e(201);const l=(0,a._)("h1",null,"Login!",-1),u=(0,a.aZ)({__name:"LoginPage",setup(i){return(i,t)=>((0,a.wg)(),(0,a.iD)(a.HY,null,[l,(0,a.Wm)((0,r.SU)(s.rH),{to:"/register"},{default:(0,a.w5)((()=>[(0,a.Uk)("register")])),_:1})],64))}}),_=u,n=_}}]);
-//# sourceMappingURL=917.38b803c6.js.map

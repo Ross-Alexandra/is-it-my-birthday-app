@@ -1,6 +1,0 @@
-"use strict";(globalThis["webpackChunkis_it_my_birthday"]=globalThis["webpackChunkis_it_my_birthday"]||[]).push([[261],{261:(t,e,i)=>{i.r(e),i.d(e,{MENU_BACK_BUTTON_PRIORITY:()=>o,OVERLAY_BACK_BUTTON_PRIORITY:()=>a,blockHardwareBackButton:()=>r,startHardwareBackButton:()=>n});
-/*!
- * (C) Ionic http://ionicframework.com - MIT License
- */
-const r=()=>{document.addEventListener("backbutton",(()=>{}))},n=()=>{const t=document;let e=!1;t.addEventListener("backbutton",(()=>{if(e)return;let i=0,r=[];const n=new CustomEvent("ionBackButton",{bubbles:!1,detail:{register(t,e){r.push({priority:t,handler:e,id:i++})}}});t.dispatchEvent(n);const a=async t=>{try{if(null===t||void 0===t?void 0:t.handler){const e=t.handler(o);null!=e&&await e}}catch(e){console.error(e)}},o=()=>{if(r.length>0){let t={priority:Number.MIN_SAFE_INTEGER,handler:()=>{},id:-1};r.forEach((e=>{e.priority>=t.priority&&(t=e)})),e=!0,r=r.filter((e=>e.id!==t.id)),a(t).then((()=>e=!1))}};o()}))},a=100,o=99}}]);
-//# sourceMappingURL=261.3af62318.js.map

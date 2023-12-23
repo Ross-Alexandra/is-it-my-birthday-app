@@ -20,7 +20,7 @@
 
 # Setup a prompt prefix which will be displayed in the terminal. This will
 # make it easier to identify whether or not the virtual environment is active.
-if [[ "$PS1" =~ ^\(iimb\).* ]]; then
+if [[ "$PS1" =~ \(iimb\).* ]]; then
     PS1=$PS1
 else
     export PS1="(iimb) $PS1"
@@ -29,6 +29,7 @@ fi
 # Define the IIMB_HOME environment variable relative to the v2 directory. This
 # will make it significantly easier to run bin scripts from the command line.
 export IIMB_HOME="$( cd "$( dirname "$( dirname "${BASH_SOURCE[0]}" )" )" && pwd )"
+export ANDOIRD_HOME=/mnt/c/tools/AndroidSDK
 
 # Source all the .sh files in the bin directory.
 for file in $IIMB_HOME/bin/*.sh; do
