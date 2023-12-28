@@ -1,10 +1,20 @@
 <template>
     <div class="tabbed-table" :data-current-tab="props.currentTab">
         <div class="tabbed-table__header">
-            <div class="tab" data-tab="birthday-streak" @click="emit('update:currentTab', 'birthday-streak')">
+            <div 
+                class="tab"
+                data-tab="birthday-streak"
+                @click="emit('update:currentTab', 'birthday-streak')"
+                title="Tally of consecutive birthdays checked"
+            >
                 <h2>The most birthday-ful</h2>
             </div>
-            <div class="tab" data-tab="streak" @click="emit('update:currentTab', 'streak')">
+            <div
+                class="tab"
+                data-tab="streak"
+                @click="emit('update:currentTab', 'streak')"
+                title="Count of consecutive cakeless days"
+            >
                 <h2>The almost birthday hero</h2>
             </div>
         </div>

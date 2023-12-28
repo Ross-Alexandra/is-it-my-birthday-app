@@ -8,13 +8,14 @@
             <h1>Every day could be a party!</h1>
             <h2>But is today your confetti moment?</h2>
             <div class="buttons">
-                <button class="btn btn-primary">Find out Now!</button>
+                <button class="btn btn-primary" @click="emit('openDialog')">Find out Now!</button>
             </div>
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
+const emit = defineEmits(['openDialog']);
 </script>
 
 <style scoped>
@@ -62,5 +63,5 @@
         flex-direction: column;
         align-items: flex-start;
         justify-content: center;
-    }
+}
 </style>

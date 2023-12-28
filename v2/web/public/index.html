@@ -27,6 +27,8 @@
 
             --primary-font-color: #000000;
             --secondary-font-color: #ffffff;
+
+            --backup-background-color: #ffdbc1;
             
             --primary-color: #adc3be;
             --secondary-color: #edb36c;
@@ -100,8 +102,8 @@
                 url('/assets/background.png'),
                 linear-gradient(
                     to bottom,
-                    #ffdbc1,
-                    #ffdbc1
+                    var(--backup-background-color),
+                    var(--backup-background-color)
                 );
             background-size: cover;
         }
