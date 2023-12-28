@@ -46,9 +46,40 @@
         h4,
         h5,
         h6,
-        p {
+        p,
+        label {
             font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
             color: var(--primary-font-color);
+        }
+
+        select,
+        input {
+            font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            color: var(--primary-font-color);
+            border-radius: 5px;
+            border: 1px solid var(--primary-font-color);
+            outline: none;
+            padding: 5px;
+            font-size: 16px;
+
+            background-color: transparent;
+        }
+
+        option {
+            background-color: var(--primary-color);
+            color: var(--on-primary-color);
+            margin: 0px;
+            padding: 0px;
+        }
+
+        select:focus,
+        input:focus {
+            border: 1px solid var(--primary-color);
+        }
+
+        select:invalid,
+        input:invalid {
+            border: 1px solid red;
         }
 
         button.btn {

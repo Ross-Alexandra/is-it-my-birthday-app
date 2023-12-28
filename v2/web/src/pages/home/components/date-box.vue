@@ -1,18 +1,18 @@
 <template>
     <div class="date-box">
         <div class="date-box__date">
-            <p>May</p>
-            <p class="focus">12th</p>
+            <p>{{ new Date().toLocaleString('default', { month: 'long' }) }}</p>
+            <p class="focus">{{ moment().format("Do") }}</p>
         </div>
         <div class="date-box__other">
-            <p class="focus">234th</p>
+            <p class="focus">{{ moment().format("DDDo") }}</p>
             <p>Day</p>
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
-
+import moment from 'moment';
 </script>
 
 <style scoped lang="scss">
@@ -66,7 +66,7 @@
             align-items: center;
             justify-content: center;
 
-            width: 5ch;
+            width: 6ch;
             padding: 10px;
             aspect-ratio: 1;
             border-radius: 50%;

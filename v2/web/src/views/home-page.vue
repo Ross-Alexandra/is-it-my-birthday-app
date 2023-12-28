@@ -9,7 +9,9 @@
     <dialog ref="dialog" class="dialog">
         <suspense>
             <template #default>
-                <birthday-dialog />
+                <birthday-dialog
+                    @close-dialog="closeDialog"
+                />
             </template>
 
             <template #fallback>
@@ -34,12 +36,15 @@ const dialog = ref<HTMLDialogElement | null>(null);
 const openDialog = () => {
     dialog.value?.showModal();
     dialog.value?.addEventListener('click', closeDialog);
+
+    document.body.style.overflow = 'hidden';
 };
 
 const closeDialog = (event?: MouseEvent) => {
     if (!event || event?.target === dialog.value) {
         dialog.value?.close();
         dialog.value?.removeEventListener('click', closeDialog);
+        document.body.style.overflow = 'auto';
     }
 };
 </script>
@@ -52,8 +57,7 @@ const closeDialog = (event?: MouseEvent) => {
 .dialog {
     padding: 0px;
 
-    min-width: 25vw;
-    min-height: 25vh;
+    min-height: 20vh;
     width: fit-content;
     height: fit-content;
 
