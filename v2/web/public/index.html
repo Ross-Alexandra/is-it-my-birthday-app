@@ -25,12 +25,17 @@
         * {
             box-sizing: border-box;
 
-            --primary-font-color: #001728;
+            --primary-font-color: #000000;
             --secondary-font-color: #ffffff;
             
             --primary-color: #adc3be;
             --secondary-color: #edb36c;
-            --background-color: #ffdbc1;
+
+            --on-primary-color: #000000;
+            --on-secondary-color: #004256;
+
+            --border-radius: 15px;
+            --box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
         }
 
         h1,
@@ -90,13 +95,13 @@
                 linear-gradient(
                     to bottom,
                     rgba(0, 0, 0, 0.3),
-                    rgba(0, 0, 0, 0.5)
+                    rgba(0, 0, 0, 0.3)
                 ),
                 url('/assets/background.png'),
                 linear-gradient(
                     to bottom,
-                    var(--background-color),
-                    var(--background-color)
+                    #ffdbc1,
+                    #ffdbc1
                 );
             background-size: cover;
         }

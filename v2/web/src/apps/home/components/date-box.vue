@@ -22,10 +22,10 @@
 
         margin: 0px auto 0px auto;
         width: min-content;
-        border-radius: 15px;
+        border-radius: var(--border-radius);
         overflow: hidden;
 
-        box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
+        box-shadow: var(--box-shadow);
 
         @media (max-width: 900px) {
             display: none;

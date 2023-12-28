@@ -53,14 +53,14 @@
     .hero .hero-image {
         display: flex;
         flex-direction: row;
-        align-items: end;
-        justify-content: end;
+        align-items: flex-end;
+        justify-content: flex-end;
     }
 
     .hero .hero-content {
         display: flex;
         flex-direction: column;
-        align-items: start;
+        align-items: flex-start;
         justify-content: center;
     }
 </style>
