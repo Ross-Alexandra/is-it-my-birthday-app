@@ -1,14 +1,6 @@
 <template>
     <div class="tabbed-table" :data-current-tab="props.currentTab">
         <div class="tabbed-table__header">
-            <div 
-                class="tab"
-                data-tab="birthday-streak"
-                @click="emit('update:currentTab', 'birthday-streak')"
-                title="Tally of consecutive birthdays checked"
-            >
-                <h2>The most birthday-ful</h2>
-            </div>
             <div
                 class="tab"
                 data-tab="streak"
@@ -16,6 +8,14 @@
                 title="Count of consecutive cakeless days"
             >
                 <h2>The almost birthday hero</h2>
+            </div>
+            <div 
+                class="tab"
+                data-tab="birthday-streak"
+                @click="emit('update:currentTab', 'birthday-streak')"
+                title="Tally of consecutive birthdays checked"
+            >
+                <h2>The most birthday-ful</h2>
             </div>
         </div>
     </div>
@@ -62,12 +62,12 @@ const emit = defineEmits(['update:currentTab']);
         }
     }
 
-    .tabbed-table[data-current-tab='birthday-streak'] .tabbed-table__header::after {
+    .tabbed-table[data-current-tab='streak'] .tabbed-table__header::after {
         left: 0px;
         width: calc(50% - var(--grid-gap) / 2);
     }
 
-    .tabbed-table[data-current-tab='streak'] .tabbed-table__header::after {
+    .tabbed-table[data-current-tab='birthday-streak'] .tabbed-table__header::after {
         left: calc(50%);
         width: 50%;
     }

@@ -25,7 +25,7 @@ import { onMounted, ref } from 'vue';
 import LeaderboardHeader from './leaderboard-header.vue';
 import LeaderboardTable from './leaderboard-table.vue';
 
-const currentTab = ref<'birthday-streak' | 'streak'>('birthday-streak');
+const currentTab = ref<'birthday-streak' | 'streak'>('streak');
 
 const birthdayStreakUsers = [{
     id: 1,

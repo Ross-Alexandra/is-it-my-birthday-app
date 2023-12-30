@@ -28,23 +28,11 @@
         </div>
 
         <div class="dialog-body">
-            <div
+            <birthday-input
                 v-if="!birthdayIsSet"
-                class="birthday-input"
-                title="psst, you can scroll me!"
-            >
-                <scrolling-input
-                    :initialIndex="5"
-                    :options="months"
-                    @change="setMonth"
-                />
-
-                <scrolling-input
-                    :initialIndex="14"
-                    :options="Array.from({ length: 31 }, (_, i) => i + 1).map(day => day.toString().padStart(2, '0'))"
-                    @change="setDay"
-                />
-            </div>
+                @change:day="setDay"
+                @change:month="setMonth"
+            />
         </div>
 
         <div class="dialog-footer">
@@ -57,12 +45,13 @@
                 {{ todaysMessage }}
             </button>
 
-            <a
+            <router-link
                 v-else
+                to="/signup"
                 class="sign-up-message"
             >
                 Sign up to get on the leaderboard!
-            </a>
+            </router-link>
         </div>
     </div>
 </template>
@@ -72,23 +61,10 @@ import { computed, ref } from 'vue';
 import { getBirthday } from '@/utils/getBirthday';
 import { random } from '@/utils/seededRandom';
 import PopupMessages from '@/copy/popup-messages.json';
-import ScrollingInput from '@/pages/home/components/scrolling-input.vue';
+import BirthdayInput, { getMonthNumber } from '@/shared/birthday-input.vue';
+import type { Months } from '@/shared/birthday-input.vue';
 
 const userBirthday = await getBirthday();
-const months = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December',
-];
 
 const emit = defineEmits(['close-dialog']);
 
@@ -110,8 +86,8 @@ const todayIsBirthday = computed(() => {
     return birthday.value?.month === today.getMonth() + 1 && birthday.value?.day === today.getDate();
 });
 
-function setMonth(nextValue: string) {
-    const monthCode = months.findIndex(month => month === nextValue) + 1;
+function setMonth(nextValue: Months) {
+    const monthCode = getMonthNumber(nextValue);
 
     if (!birthday.value) {
         birthday.value = {
@@ -202,21 +178,6 @@ function randomMessage(type: keyof typeof PopupMessages) {
 
     svg {
         fill: var(--primary-font-color);
-    }
-}
-
-.birthday-input {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-    margin-bottom: 15px;
-
-    & > *:first-child {
-        align-items: flex-end;
-    }
-
-    & > *:last-child {
-        align-items: flex-start;
     }
 }
 

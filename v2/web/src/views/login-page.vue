@@ -1,11 +1,21 @@
 <template>
-    <h1>Login!</h1>
-    <router-link to="/register">register</router-link>
+    <div class="register-modal">
+
+    </div>
 </template>
 
 <script setup lang="ts">
-import { RouterLink } from 'vue-router';
 </script>
 
-<style scoped>
+<style lang='scss' scoped>
+.register-modal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    padding: 25px;
+    width: fit-content;
+    height: fit-content;
+}
 </style>
