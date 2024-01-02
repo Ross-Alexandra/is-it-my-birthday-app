@@ -1,5 +1,5 @@
 <template>
-    <div class="register-panel">
+    <panel-page>
         <h1>Join the Birthday Countdown!</h1>
         <img 
             src="/assets/register.png"
@@ -17,7 +17,6 @@
 
         <div class="register-info">
             <label data-for="name">
-                <span>Name</span>
                 <input
                     type="text"
                     name="name"
@@ -27,7 +26,6 @@
             </label>
 
             <label data-for="email">
-                <span>Email</span>
                 <input
                     type="email"
                     name="email"
@@ -50,7 +48,10 @@
                     name="tos"
                     required
                 />
-                <span class="legal">Don&apos;t forget to peek at our <a href="/terms">Terms of Service</a> - it&apos;s shorter than your birthday wishlist!</span>
+                <span class="legal">
+                    I agree to the <a href="/legal">Legal Terms</a>
+                    - it&apos;s shorter than your birthday wishlist!
+                </span>
             </label>
         </div>
 
@@ -63,12 +64,13 @@
         <p class="legal">
             Say goodbye to passwords! Sign in swiftly with a secure link sent straight to your email. Safe, simple, and no passwords to remember!
         </p>
-    </div>
+    </panel-page>
 </template>
 
 <script setup lang="ts">
 import BirthdayInput, { getMonthNumber } from '@/shared/birthday-input.vue';
 import type { Months } from '@/shared/birthday-input.vue';
+import PanelPage from '@/shared/panel-page.vue';
 
 function setDay(day: string) {
     console.log(day);
@@ -80,42 +82,6 @@ function setMonth(month: Months) {
 </script>
 
 <style lang='scss' scoped>
-.register-panel {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin: 0px auto;
-
-    padding: 25px;
-    width: fit-content;
-    height: fit-content;
-
-    max-width: 50vw;
-}
-
-.register-panel::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-
-    width: 100%;
-    height: 100%;
-
-    background-color: var(--backup-background-color);
-    opacity: 0.75;
-    backdrop-filter: blur(5px);
-    border-radius: var(--border-radius);
-
-    z-index: -1;
-}
-
 .register-info {
     display: grid;
     grid-template-columns: repeat(2, 1fr);

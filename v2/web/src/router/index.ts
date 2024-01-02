@@ -17,6 +17,10 @@ const routes: Array<RouteRecordRaw> = [
     name: 'Signup',
     component: () => import('@/views/register-page.vue'),
   }, {
+    path: '/legal',
+    name: 'Legal',
+    component: () => import('@/views/legal-page.vue'),
+  },{
     path: '/:pathMatch(.*)*',
     redirect: '/home'
   }
