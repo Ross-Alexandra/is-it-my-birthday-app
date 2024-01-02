@@ -18,6 +18,7 @@ log.txt
 npm-debug.log*
 
 web/dist/*
+web/node_modules/*
 
 /.idea
 /.ionic
