@@ -1,0 +1,89 @@
+<template>
+    <div class="scrolling-input-wrapper" @wheel="scroll">
+        <h4
+            class="fade-1"
+            @click="setNextIndex(currentIndex - 1)"
+        >
+            {{ options.at(currentIndex - 1) }}
+        </h4>
+        <h3
+            class="scrolling-input"
+        >
+            {{ options.at(currentIndex) }}
+        </h3>
+        <h4
+            class="fade-1"
+            @click="setNextIndex(currentIndex + 1)"
+        >
+            {{ options.at((currentIndex + 1) % options.length) }}
+        </h4>
+    </div>
+</template>
+
+<script setup lang="ts">
+import { ref } from 'vue';
+
+const emit = defineEmits(['change']);
+const props = defineProps<{
+    initialIndex: number;
+    options: string[];
+}>();
+
+const currentIndex = ref(props.initialIndex);
+
+function setNextIndex(nextIndex: number) {
+    if (nextIndex >= 0 && nextIndex < props.options.length) {
+        currentIndex.value = nextIndex;
+        emit('change', props.options[nextIndex]);
+    } else if (nextIndex < 0) {
+        currentIndex.value = props.options.length - nextIndex - 2;
+        emit('change', props.options[currentIndex.value]);
+    } else if (nextIndex >= props.options.length) {
+        currentIndex.value = nextIndex - props.options.length;
+        emit('change', props.options[currentIndex.value]);
+    }
+}
+
+const scroll = (event: WheelEvent) => {
+    event.preventDefault();
+
+    const delta = Math.sign(event.deltaY);
+    const nextIndex = currentIndex.value + delta;
+
+    setNextIndex(nextIndex);
+};
+</script>
+
+<style lang="scss" scoped>
+.scrolling-input-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    > * {
+        user-select: none;
+        font-weight: 800;
+        cursor: pointer;
+    }
+}
+
+.scrolling-input {
+    cursor: default;
+    font-size: 2rem;
+
+    margin: 0px;
+    padding: 0px;
+}
+
+.fade-1 {
+    opacity: .75;
+    filter: blur(0.75px);
+    margin: 0px;
+}
+
+.fade-2 {
+    opacity: 0.25;
+    filter: blur(2px);
+    margin: 0px;
+}
+</style>
