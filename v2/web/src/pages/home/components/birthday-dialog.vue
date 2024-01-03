@@ -117,7 +117,7 @@ function setDay(nextValue: string) {
 function submitBirthday() {
     if (birthday.value) {
         birthdayIsSet.value = true;
-        // localStorage.setItem('birthday', `${birthday.value.month}-${birthday.value.day}`);
+        localStorage.setItem('birthday', `${birthday.value.month}-${birthday.value.day}`);
         localStorage.setItem('last-submit', new Date().getTime().toString());
     }
 }
