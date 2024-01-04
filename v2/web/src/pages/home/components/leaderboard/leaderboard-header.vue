@@ -122,14 +122,14 @@ const emit = defineEmits(['update:currentTab']);
     .tabbed-table .tab {
         position: relative;
         cursor: pointer;
-        width: 100%;
+        width: max-content;
         height: 100%;
 
         font-size: 1.1rem;
         font-weight: 800;
         padding: 0px 20px;
 
-        transition: opacity 0.15s ease-in-out;
+        transition: opacity 0.35s ease-in-out;
 
         &::after {
             position: absolute;
@@ -145,7 +145,7 @@ const emit = defineEmits(['update:currentTab']);
             border-radius: var(--border-radius);
 
             transform: scaleX(0);
-            transition: transform 0.15s ease-in-out;
+            transition: transform 0.35s ease-in-out;
         }
     }
 }

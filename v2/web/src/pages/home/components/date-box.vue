@@ -116,5 +116,19 @@ import moment from 'moment';
             background-color: var(--secondary-color);
         }
     }
+
+    .focus {
+        position: relative;
+    }
+    .focus::after {
+        content: '';
+        position: absolute;
+        bottom: 0px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100%;
+        height: 3px;
+        background-color: var(--focus-background-color);
+    }
 }
 </style>

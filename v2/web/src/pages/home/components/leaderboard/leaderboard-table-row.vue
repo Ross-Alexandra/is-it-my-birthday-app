@@ -73,7 +73,7 @@ defineProps<{
     .leaderboard-table-row {
         display: grid;
         
-        grid-template-columns: 1fr 2fr 1fr;
+        grid-template-columns: 1fr 3fr;
         gap: 10px;
         place-items: center;
         width: 100%;
@@ -84,6 +84,11 @@ defineProps<{
         margin: 0px var(--row-margin) 3px 0px;
 
         border-radius: var(--border-radius);
+
+
+        &__user {
+            justify-self: start;
+        }
 
         p, h3 {
             margin: unset;
