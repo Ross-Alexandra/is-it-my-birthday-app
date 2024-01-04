@@ -70,7 +70,10 @@
         align-items: start;
 
         width: 95vw;
-        height: 95svh;
+        height: fit-content;
+
+        max-height: 95svh;
+        min-height: 75svh;
 
         &::after {
             content: '';
@@ -94,7 +97,7 @@
         height: 100%;
         overflow: auto;
 
-        padding: 25px;
+        padding: 10px 25px;
     }
 }
 </style>
