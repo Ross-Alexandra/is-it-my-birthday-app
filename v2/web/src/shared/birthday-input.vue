@@ -68,5 +68,19 @@ const emit = defineEmits(['change:month', 'change:day']);
 }
 
 @media (max-width: $tablet-breakpoint) {
+    .birthday-input {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+        margin-bottom: 15px;
+
+        & > *:first-child {
+            align-items: flex-end;
+        }
+
+        & > *:last-child {
+            align-items: flex-start;
+        }
+    }
 }
 </style>

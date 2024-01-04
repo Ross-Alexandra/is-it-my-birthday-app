@@ -176,10 +176,6 @@ function randomMessage(type: keyof typeof PopupMessages) {
 
         cursor: pointer;
 
-        &:hover {
-            background-color: var(--backup-background-color-hover);
-        }
-
         svg {
             fill: var(--primary-font-color);
         }
@@ -194,5 +190,34 @@ function randomMessage(type: keyof typeof PopupMessages) {
 }
 
 @media (max-width: $tablet-breakpoint) {
+    .dialog-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        padding: 25px;
+    }
+
+    .dialog-close {
+        position: absolute;
+        top: 10px;
+        right: 5px;
+
+        border: unset;
+        background-color: transparent;
+
+        cursor: pointer;
+
+        svg {
+            fill: var(--primary-font-color);
+        }
+    }
+
+    .sign-up-message {
+        color: var(--primary-font-color);
+        text-decoration: underline;
+        cursor: pointer;
+    }
 }
 </style>

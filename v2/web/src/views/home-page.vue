@@ -119,5 +119,22 @@ const closeDialog = (event?: MouseEvent) => {
 }
 
 @media (max-width: $tablet-breakpoint) {
+    .dialog {
+        padding: 0px;
+
+        min-height: 20vh;
+        width: 95vw;
+        height: fit-content;
+
+        border: unset;
+        border-radius: var(--border-radius);
+
+        background-color: var(--backup-background-color);
+
+        &::backdrop {
+            background-color: rgba(0, 0, 0, 0.75);
+            cursor: pointer;
+        }
+    }
 }
 </style>

@@ -1,5 +1,9 @@
 <template>
-    <div class="scrolling-input-wrapper" @wheel="scroll">
+    <div class="scrolling-input-wrapper"
+        @wheel="scroll"
+        @touchstart="swipeStart"
+        @touchmove="swipeMove"
+    >
         <h4
             class="fade-1"
             @click="setNextIndex(currentIndex - 1)"
@@ -7,6 +11,7 @@
             {{ options.at(currentIndex - 1) }}
         </h4>
         <h3
+            ref="primary"
             class="scrolling-input"
         >
             {{ options.at(currentIndex) }}
@@ -21,7 +26,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 
 const emit = defineEmits(['change']);
 const props = defineProps<{
@@ -52,6 +57,34 @@ const scroll = (event: WheelEvent) => {
 
     setNextIndex(nextIndex);
 };
+
+const primary = ref<HTMLElement | null>(null);
+const swipeDeltaThreshold = ref(100);
+onMounted(() => {
+    swipeDeltaThreshold.value = primary.value?.clientHeight || 100;
+});
+
+const swipeDiff = ref(0);
+const swipeStartAt = ref(0);
+function swipeStart(event: TouchEvent) {
+    swipeStartAt.value = event.touches[0].clientY;
+}
+
+function swipeMove(event: TouchEvent) {
+    event.preventDefault();
+
+    const delta = swipeStartAt.value - event.touches[0].clientY;
+    swipeDiff.value += delta;
+
+    if (Math.abs(swipeDiff.value) > swipeDeltaThreshold.value) {
+        const nextIndex = currentIndex.value + Math.sign(swipeDiff.value);
+        swipeDiff.value = 0;
+        swipeStartAt.value = event.touches[0].clientY;
+
+        setNextIndex(nextIndex);
+    }
+}
+
 </script>
 
 <style lang="scss" scoped>
@@ -93,5 +126,29 @@ const scroll = (event: WheelEvent) => {
 }
 
 @media (max-width: $tablet-breakpoint) {
+    .scrolling-input-wrapper {
+        display: flex;
+        flex-direction: column;
+    }
+
+        .scrolling-input {
+        cursor: default;
+        font-size: 1.5rem;
+
+        margin: 10px 0px;
+        padding: 0px;
+    }
+
+    .fade-1 {
+        opacity: .75;
+        filter: blur(0.75px);
+        margin: 0px;
+    }
+
+    .fade-2 {
+        opacity: 0.25;
+        filter: blur(2px);
+        margin: 0px;
+    }
 }
 </style>
