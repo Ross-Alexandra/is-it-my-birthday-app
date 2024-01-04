@@ -38,5 +38,8 @@ import PanelPage from '@/shared/panel-page.vue';
 }
 
 @media (max-width: $tablet-breakpoint) {
+    .login-panel {
+        
+    }
 }
 </style>

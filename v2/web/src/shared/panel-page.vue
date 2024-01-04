@@ -1,8 +1,6 @@
 <template>
     <div class="panel">
-        <div class="panel-inner">
-            <slot />
-        </div>
+        <slot />
     </div>
 </template>
 
@@ -19,40 +17,19 @@
 
         display: flex;
         flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        margin: 0px auto;
+        align-items: start;
 
-        padding: 25px;
-        width: fit-content;
-        height: fit-content;
-
-        max-width: 75vw;
-        max-height: 95vh;
-
-        &::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-
-            width: 100%;
-            height: 100%;
-
-            background-color: var(--backup-background-color);
-            opacity: 0.75;
-            backdrop-filter: blur(5px);
-            border-radius: var(--border-radius);
-
-            z-index: -1;
-        }
-    }
-
-    .panel-inner {
-        height: 100%;
         overflow: auto;
+        width: max-content;
 
-        padding: 25px;
+        padding: 10px 25px;
+
+        max-height: 85vh;
+        max-width: 95vw;
+
+        background-color: var(--backup-transparent-background-color);
+        backdrop-filter: blur(5px);
+        border-radius: var(--border-radius);
     }
 }
 
@@ -63,41 +40,21 @@
         left: 50%;
         transform: translate(-50%, -50%);
 
-        overflow: auto;
-
         display: flex;
         flex-direction: column;
         align-items: start;
 
-        width: 95vw;
-        height: fit-content;
-
-        max-height: 95svh;
-        min-height: 75svh;
-
-        &::after {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-
-            width: 100%;
-            height: 100%;
-
-            background-color: var(--backup-background-color);
-            opacity: 0.75;
-            backdrop-filter: blur(5px);
-            border-radius: var(--border-radius);
-
-            z-index: -1;
-        }
-    }
-
-    .panel-inner {
-        height: 100%;
         overflow: auto;
 
         padding: 10px 25px;
+
+        width: 95vw;
+        min-height: 75svh;
+        max-height: 95svh;
+        
+        background-color: var(--backup-transparent-background-color);
+        backdrop-filter: blur(5px);
+        border-radius: var(--border-radius);
     }
 }
 </style>

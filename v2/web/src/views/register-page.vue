@@ -1,38 +1,44 @@
 <template>
     <panel-page>
         <div class="register-panel">
-            <h1>Join the Birthday Countdown!</h1>
-            <picture>
-                <source 
-                    srcset="/assets/register.png"
-                    media="(min-width: 801px)"
-                    width="200px"
-                    height="200px"
-                    alt="register"
-                />
-                <source 
-                    srcset="/assets/register.png"
-                    media="(max-width: 800px)"
-                    width="125px"
-                    height="125px"
-                    alt="register"
-                />
-                <img
-                    src="/assets/register.png"
-                    width="200px"
-                    height="200px"
-                    alt="register"
-                />
-            </picture>
-            
-            <p class="signup-cta">
-                Get your party hats on standby! Sign up to track your birthday
-                anticipation streak, earn your spot on the leaderboard, and enjoy a
-                daily dose of fun. Because every day
-                is a step closer to your slice of the birthday cake!
-            </p>
+            <div class="signup-info">
+                <picture>
+                    <source 
+                        srcset="/assets/register.png"
+                        media="(min-width: 801px)"
+                        width="125px"
+                        height="125px"
+                        alt="register"
+                    />
+                    <source 
+                        srcset="/assets/register.png"
+                        media="(max-width: 800px)"
+                        width="125px"
+                        height="125px"
+                        alt="register"
+                    />
+                    <img
+                        src="/assets/register.png"
+                        width="200px"
+                        height="200px"
+                        alt="register"
+                    />
+                </picture>
+
+                <h1>Join the Birthday Countdown!</h1>
+                <p class="signup-cta">
+                    Get your party hats on standby! Sign up to track your birthday
+                    anticipation streak, earn your spot on the leaderboard, and enjoy a
+                    daily dose of fun. Because every day
+                    is a step closer to your slice of the birthday cake!
+                </p>
+            </div>
+
+            <div class="divider" />
 
             <div class="register-info">
+                <h3 class="register-title">Your Info</h3>
+
                 <label data-for="name">
                     <input
                         type="text"
@@ -104,13 +110,61 @@ function setMonth(month: Months) {
 
 // Desktop Styling
 @media (min-width: ($tablet-breakpoint + 1px)) {
+    .register-panel {
+        display: flex;
+        flex-direction: column;
+
+        h1 {
+            margin: 0px 0px 10px 0px;
+        }
+
+        button {
+            align-self: start;
+        }
+    }
+
+    .signup-info {
+        display: grid;
+        grid-template-areas:
+            "picture info"
+            "picture cta";
+        grid-template-columns: fit-content 5fr;
+        grid-gap: 10px;
+
+        picture,
+        img {
+            grid-area: picture;
+            align-self: center;
+            justify-self: end;
+
+            height: 100%;
+            object-fit: contain;
+        }
+
+        h1 {
+            grid-area: info;
+            margin: 0px 0px 10px 0px;
+            align-self: end;
+        }
+
+        .signup-cta {
+            grid-area: cta;
+            align-self: end;
+        }
+    }
+
     .register-info {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         grid-gap: 10px;
-        margin-bottom: 20px;
+        margin: 0px auto 20px auto;
 
         max-width: 50%;
+
+        .register-title {
+            grid-column: 1 / -1;
+            margin: 0px 0px 10px 0px;
+        }
 
         label {
             display: flex;
@@ -172,6 +226,7 @@ function setMonth(month: Months) {
     }
 }
 
+// Mobile Styling
 @media (max-width: $tablet-breakpoint) {
     .register-panel {
         display: flex;
@@ -181,20 +236,49 @@ function setMonth(month: Months) {
             margin: 0px 0px 10px 0px;
         }
 
-        picture,
-        img {
-            align-self: center;
+        button {
+            align-self: start;
         }
     }
 
-    .signup-cta {
-        display: none;
+    .signup-info {
+        display: grid;
+        grid-template-areas:
+            "picture picture"
+            "info info";
+        grid-template-columns: 1fr 1fr;
+        grid-gap: 10px;
+
+        picture,
+        img {
+            grid-area: picture;
+            justify-self: center;
+
+            height: 100%;
+            object-fit: contain;
+        }
+
+        h1 {
+            grid-area: info;
+            margin: 0px 0px 10px 0px;
+            justify-self: center;
+        }
+
+        .signup-cta {
+            grid-area: cta;
+            align-self: end;
+            display: none;
+        }
     }
 
     .register-info {
         display: flex;
         flex-direction: column;
-        align-items: center;
+        gap: 10px;
+
+        .register-title {
+            margin: 0px 0px 10px 0px;
+        }
     }
 
     .register-info > label[data-for="name"] > input {
@@ -203,7 +287,7 @@ function setMonth(month: Months) {
 
     .register-info > label[data-for="birthday"] {
         width: 100%;
-    }
+        }
 
     button {
         margin-top: 10px;
