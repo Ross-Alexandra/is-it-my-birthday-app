@@ -55,35 +55,43 @@ const scroll = (event: WheelEvent) => {
 </script>
 
 <style lang="scss" scoped>
-.scrolling-input-wrapper {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
+@import '@/theme.scss';
 
-    > * {
-        user-select: none;
-        font-weight: 800;
-        cursor: pointer;
+// Desktop Styling
+@media (min-width: ($tablet-breakpoint + 1px)) {
+    .scrolling-input-wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+
+        > * {
+            user-select: none;
+            font-weight: 800;
+            cursor: pointer;
+        }
+    }
+
+    .scrolling-input {
+        cursor: default;
+        font-size: 2rem;
+
+        margin: 0px;
+        padding: 0px;
+    }
+
+    .fade-1 {
+        opacity: .75;
+        filter: blur(0.75px);
+        margin: 0px;
+    }
+
+    .fade-2 {
+        opacity: 0.25;
+        filter: blur(2px);
+        margin: 0px;
     }
 }
 
-.scrolling-input {
-    cursor: default;
-    font-size: 2rem;
-
-    margin: 0px;
-    padding: 0px;
-}
-
-.fade-1 {
-    opacity: .75;
-    filter: blur(0.75px);
-    margin: 0px;
-}
-
-.fade-2 {
-    opacity: 0.25;
-    filter: blur(2px);
-    margin: 0px;
+@media (max-width: $tablet-breakpoint) {
 }
 </style>

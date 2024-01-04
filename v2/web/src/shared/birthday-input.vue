@@ -5,7 +5,7 @@
     >
         <scrolling-input
             :initialIndex="5"
-            :options="months"
+            :options="(months as unknown as string[])"
             @change="(nextValue: typeof months[number]) => emit('change:month', nextValue)"
         />
 
@@ -47,18 +47,26 @@ const emit = defineEmits(['change:month', 'change:day']);
 </script>
 
 <style lang="scss" scoped>
-.birthday-input {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-    margin-bottom: 15px;
+@import '@/theme.scss';
 
-    & > *:first-child {
-        align-items: flex-end;
-    }
+// Desktop Styling
+@media (min-width: ($tablet-breakpoint + 1px)) {
+    .birthday-input {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+        margin-bottom: 15px;
 
-    & > *:last-child {
-        align-items: flex-start;
+        & > *:first-child {
+            align-items: flex-end;
+        }
+
+        & > *:last-child {
+            align-items: flex-start;
+        }
     }
+}
+
+@media (max-width: $tablet-breakpoint) {
 }
 </style>

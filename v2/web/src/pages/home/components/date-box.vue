@@ -16,6 +16,10 @@ import moment from 'moment';
 </script>
 
 <style scoped lang="scss">
+@import '@/theme.scss';
+
+// Desktop Styling
+@media (min-width: ($tablet-breakpoint + 1px)) {
     .date-box {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -26,10 +30,6 @@ import moment from 'moment';
         overflow: hidden;
 
         box-shadow: var(--box-shadow);
-
-        @media (max-width: 900px) {
-            display: none;
-        }
 
         p {
             position: relative;
@@ -47,7 +47,7 @@ import moment from 'moment';
 
             width: 100%;
             height: 100%;
-            padding: 10px 70px;
+            padding: 10px 30%;
         }
 
         &__date {
@@ -75,4 +75,46 @@ import moment from 'moment';
             box-shadow: inset 0 -4px 5px -3px rgba(0, 0, 0, 0.3); /* Inner shadow effect */
         }
     }
+}
+
+// Mobile Styling
+@media (max-width: $tablet-breakpoint) {
+    .date-box {
+        display: flex;
+        flex-direction: column;
+        margin: 0px 5px;
+
+        border-radius: var(--border-radius);
+        overflow: hidden;
+
+        &__date,
+        &__other {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-evenly;
+
+            width: 100%;
+            height: 100%;
+            padding: 10px 70px;
+
+            font-size: 1.5rem;
+            font-weight: 800;
+
+            p {
+                margin: 10px 0px;
+            }
+        }
+
+        &__date {
+            --focus-background-color: var(--secondary-color);
+            background-color: var(--primary-color);
+        }
+
+        &__other {
+            --focus-background-color: var(--primary-color);
+            background-color: var(--secondary-color);
+        }
+    }
+}
 </style>

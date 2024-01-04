@@ -82,70 +82,78 @@ function setMonth(month: Months) {
 </script>
 
 <style lang='scss' scoped>
-.register-info {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-gap: 10px;
-    margin-bottom: 20px;
+@import '@/theme.scss';
 
-    max-width: 50%;
+// Desktop Styling
+@media (min-width: ($tablet-breakpoint + 1px)) {
+    .register-info {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-gap: 10px;
+        margin-bottom: 20px;
 
-    label {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        justify-content: center;
+        max-width: 50%;
 
-        span {
-            margin-bottom: 5px;
+        label {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: center;
+
+            span {
+                margin-bottom: 5px;
+            }
+
+            input {
+                width: 100%;
+                padding: 5px 10px;
+            }
         }
 
-        input {
+        & > label[data-for="birthday"] {
             width: 100%;
-            padding: 5px 10px;
+            align-items: center;
+            grid-column: 1 / -1;
+
+            h3 {
+                width: 100%;
+                text-align: start;
+            }
+        }
+
+        & > label[data-for="tos"] {
+            flex-direction: row;
+            grid-column: 1 / -1;
+            align-items: flex-start;
+            justify-content: flex-start;
+
+            input {
+                flex-basis: 30px;
+                margin-right: 5px;
+            }
+
+            span {
+                text-align: start;
+            }
         }
     }
 
-    & > label[data-for="birthday"] {
+    .divider {
         width: 100%;
-        align-items: center;
-        grid-column: 1 / -1;
+        height: 1px;
+        margin: 20px 0px;
 
-        h3 {
-            width: 100%;
-            text-align: start;
-        }
+        background-color: var(--primary-font-color);
+        opacity: 0.25;
     }
 
-    & > label[data-for="tos"] {
-        flex-direction: row;
-        grid-column: 1 / -1;
-        align-items: flex-start;
-        justify-content: flex-start;
-
-        input {
-            flex-basis: 30px;
-            margin-right: 5px;
-        }
-
-        span {
-            text-align: start;
-        }
+    .legal {
+        font-size: .75rem;
+        text-align: center;
+        opacity: 0.75;
     }
 }
 
-.divider {
-    width: 100%;
-    height: 1px;
-    margin: 20px 0px;
-
-    background-color: var(--primary-font-color);
-    opacity: 0.25;
-}
-
-.legal {
-    font-size: .75rem;
-    text-align: center;
-    opacity: 0.75;
+@media (max-width: $tablet-breakpoint) {
 }
 </style>

@@ -48,12 +48,20 @@ import PanelPage from '@/shared/panel-page.vue';
 </script>
 
 <style lang='scss' scoped>
-.legal-panel {
-    max-height: 100svh;
-    width: fit-content;
-    min-width: 75vw;
-    border-radius: 0px;
+@import '@/theme.scss';
 
-    display: block;
+// Desktop Styling
+@media (min-width: ($tablet-breakpoint + 1px)) {
+    .legal-panel {
+        max-height: 100svh;
+        width: fit-content;
+        min-width: 75vw;
+        border-radius: 0px;
+
+        display: block;
+    }
+}
+
+@media (max-width: $tablet-breakpoint) {
 }
 </style>

@@ -129,62 +129,70 @@ function randomMessage(type: keyof typeof PopupMessages) {
 </script>
 
 <style lang="scss" scoped>
-.dialog-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+@import '@/theme.scss';
 
-    padding: 25px;
-    width: fit-content;
-    height: fit-content;
+// Desktop Styling
+@media (min-width: ($tablet-breakpoint + 1px)) {
+    .dialog-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        padding: 25px;
+        width: fit-content;
+        height: fit-content;
+    }
+
+    .dialog-header {
+        display: flex;
+        flex-direction: column;
+
+        h2 {
+            margin: 0 0 0 0;
+            font-size: 2rem;
+            max-width: 30ch;
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            margin: 0 0 15px 0;
+        }
+
+        img {
+            align-self: center;
+        }
+    }
+
+    .dialog-close {
+        position: absolute;
+        top: 10px;
+        right: 5px;
+
+        border: unset;
+        border-radius: 50%;
+
+        background-color: transparent;
+
+        cursor: pointer;
+
+        &:hover {
+            background-color: var(--backup-background-color-hover);
+        }
+
+        svg {
+            fill: var(--primary-font-color);
+        }
+    }
+
+    .sign-up-message {
+        font-size: 1.1rem;
+        color: var(--primary-font-color);
+        text-decoration: underline;
+        cursor: pointer;
+    }
 }
 
-.dialog-header {
-    display: flex;
-    flex-direction: column;
-
-    h2 {
-        margin: 0 0 0 0;
-        font-size: 2rem;
-        max-width: 30ch;
-    }
-
-    h3 {
-        font-size: 1.5rem;
-        margin: 0 0 15px 0;
-    }
-
-    img {
-        align-self: center;
-    }
-}
-
-.dialog-close {
-    position: absolute;
-    top: 10px;
-    right: 5px;
-
-    border: unset;
-    border-radius: 50%;
-
-    background-color: transparent;
-
-    cursor: pointer;
-
-    &:hover {
-        background-color: var(--backup-background-color-hover);
-    }
-
-    svg {
-        fill: var(--primary-font-color);
-    }
-}
-
-.sign-up-message {
-    font-size: 1.1rem;
-    color: var(--primary-font-color);
-    text-decoration: underline;
-    cursor: pointer;
+@media (max-width: $tablet-breakpoint) {
 }
 </style>
