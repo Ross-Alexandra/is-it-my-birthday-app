@@ -199,6 +199,20 @@ function randomMessage(type: keyof typeof PopupMessages) {
         padding: 25px;
     }
 
+    .dialog-header {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        h2 {
+            font-size: 1.3rem;
+        }
+
+        img {
+            max-width: 100%;
+        }
+    }
+
     .dialog-close {
         position: absolute;
         top: 10px;

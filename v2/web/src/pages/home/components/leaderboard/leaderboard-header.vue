@@ -122,7 +122,7 @@ const emit = defineEmits(['update:currentTab']);
     .tabbed-table .tab {
         position: relative;
         cursor: pointer;
-        width: max-content;
+        width: fit-content;
         height: 100%;
 
         font-size: 1.1rem;
@@ -130,6 +130,7 @@ const emit = defineEmits(['update:currentTab']);
         padding: 0px 20px;
 
         transition: opacity 0.35s ease-in-out;
+        user-select: none;
 
         &::after {
             position: absolute;
