@@ -26,9 +26,32 @@ import PanelPage from '@/shared/panel-page.vue';
 </script>
 
 <style lang='scss' scoped>
-.login-panel {
-    input {
-        margin-bottom: 10px;
+@import '@/theme.scss';
+
+// Desktop Styling
+@media (min-width: ($tablet-breakpoint + 1px)) {
+    .login-panel {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        input {
+            margin-bottom: 10px;
+        }
+    }
+}
+
+@media (max-width: $tablet-breakpoint) {
+    .login-panel {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        min-height: 0px;
+
+        input {
+            margin-bottom: 10px;
+        }
     }
 }
 </style>

@@ -129,62 +129,109 @@ function randomMessage(type: keyof typeof PopupMessages) {
 </script>
 
 <style lang="scss" scoped>
-.dialog-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+@import '@/theme.scss';
 
-    padding: 25px;
-    width: fit-content;
-    height: fit-content;
+// Desktop Styling
+@media (min-width: ($tablet-breakpoint + 1px)) {
+    .dialog-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        padding: 25px;
+        width: fit-content;
+        height: fit-content;
+    }
+
+    .dialog-header {
+        display: flex;
+        flex-direction: column;
+
+        h2 {
+            margin: 0 0 0 0;
+            font-size: 2rem;
+            max-width: 30ch;
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            margin: 0 0 15px 0;
+        }
+
+        img {
+            align-self: center;
+        }
+    }
+
+    .dialog-close {
+        position: absolute;
+        top: 10px;
+        right: 5px;
+
+        border: unset;
+        border-radius: 50%;
+
+        background-color: transparent;
+
+        cursor: pointer;
+
+        svg {
+            fill: var(--primary-font-color);
+        }
+    }
+
+    .sign-up-message {
+        font-size: 1.1rem;
+        color: var(--primary-font-color);
+        text-decoration: underline;
+        cursor: pointer;
+    }
 }
 
-.dialog-header {
-    display: flex;
-    flex-direction: column;
+@media (max-width: $tablet-breakpoint) {
+    .dialog-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
 
-    h2 {
-        margin: 0 0 0 0;
-        font-size: 2rem;
-        max-width: 30ch;
+        padding: 25px;
     }
 
-    h3 {
-        font-size: 1.5rem;
-        margin: 0 0 15px 0;
+    .dialog-header {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        h2 {
+            font-size: 1.3rem;
+        }
+
+        img {
+            max-width: 100%;
+        }
     }
 
-    img {
-        align-self: center;
-    }
-}
+    .dialog-close {
+        position: absolute;
+        top: 10px;
+        right: 5px;
 
-.dialog-close {
-    position: absolute;
-    top: 10px;
-    right: 5px;
+        border: unset;
+        background-color: transparent;
 
-    border: unset;
-    border-radius: 50%;
+        cursor: pointer;
 
-    background-color: transparent;
-
-    cursor: pointer;
-
-    &:hover {
-        background-color: var(--backup-background-color-hover);
+        svg {
+            fill: var(--primary-font-color);
+        }
     }
 
-    svg {
-        fill: var(--primary-font-color);
+    .sign-up-message {
+        color: var(--primary-font-color);
+        text-decoration: underline;
+        cursor: pointer;
     }
-}
-
-.sign-up-message {
-    font-size: 1.1rem;
-    color: var(--primary-font-color);
-    text-decoration: underline;
-    cursor: pointer;
 }
 </style>

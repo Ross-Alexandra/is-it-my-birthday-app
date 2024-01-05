@@ -49,68 +49,92 @@ const closeDialog = (event?: MouseEvent) => {
 };
 </script>
 
-<style scoped>
-.gap {
-    height: 100px;
-}
+<style lang="scss" scoped>
+@import '@/theme.scss';
 
-.dialog {
-    padding: 0px;
+// Desktop Styling
+@media (min-width: ($tablet-breakpoint + 1px)) {
+    .gap {
+        height: 100px;
+    }
 
-    min-height: 20vh;
-    width: fit-content;
-    height: fit-content;
+    .dialog {
+        padding: 0px;
 
-    border: unset;
-    border-radius: var(--border-radius);
+        min-height: 20vh;
+        width: fit-content;
+        height: fit-content;
 
-    background-color: var(--backup-background-color);
+        border: unset;
+        border-radius: var(--border-radius);
 
-    &::backdrop {
-        background-color: rgba(0, 0, 0, 0.75);
-        cursor: pointer;
+        background-color: var(--backup-background-color);
+
+        &::backdrop {
+            background-color: rgba(0, 0, 0, 0.75);
+            cursor: pointer;
+        }
+    }
+
+    .dialog-fallback {
+        display: grid;
+        place-items: center;
+        height: 25vh;
+        width: 100%;
+    }
+
+    .loader {
+        width: 48px;
+        height: 48px;
+        display: inline-block;
+        position: relative;
+    }
+    .loader::after,
+    .loader::before {
+        content: '';  
+        box-sizing: border-box;
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        border: 2px solid var(--primary-font-color);
+        position: absolute;
+        left: 0;
+        top: 0;
+        animation: animloader 2s linear infinite;
+    }
+    .loader::after {
+        animation-delay: 1s;
+    }
+
+    @keyframes animloader {
+        0% {
+            transform: scale(0);
+            opacity: 1;
+        }
+        100% {
+            transform: scale(1);
+            opacity: 0;
+        }
     }
 }
 
-.dialog-fallback {
-    display: grid;
-    place-items: center;
-    height: 25vh;
-    width: 100%;
-}
+@media (max-width: $tablet-breakpoint) {
+    .dialog {
+        padding: 0px;
 
-.loader {
-  width: 48px;
-  height: 48px;
-  display: inline-block;
-  position: relative;
-}
-.loader::after,
-.loader::before {
-  content: '';  
-  box-sizing: border-box;
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  border: 2px solid var(--primary-font-color);
-  position: absolute;
-  left: 0;
-  top: 0;
-  animation: animloader 2s linear infinite;
-}
-.loader::after {
-  animation-delay: 1s;
-}
+        min-height: 20vh;
+        width: 95vw;
+        height: fit-content;
 
-@keyframes animloader {
-  0% {
-    transform: scale(0);
-    opacity: 1;
-  }
-  100% {
-    transform: scale(1);
-    opacity: 0;
-  }
-}
+        border: unset;
+        border-radius: var(--border-radius);
 
+        background-color: var(--backup-background-color);
+
+        &::backdrop {
+            background-color: rgba(0, 0, 0, 0.75);
+            cursor: pointer;
+        }
+    }
+}
 </style>

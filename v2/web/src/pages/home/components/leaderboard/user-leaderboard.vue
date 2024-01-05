@@ -9,6 +9,7 @@
     <div class="leaderboard">
         <leaderboard-header
             :current-tab="currentTab"
+            @click="scrollToLeaderboards"
             @update:currentTab="nextTab => currentTab = nextTab"
         />
 
@@ -90,6 +91,10 @@ function scrollToLeaderboards() {
 </script>
 
 <style lang='scss' scoped>
+@import '@/theme.scss';
+
+// Desktop Styling
+@media (min-width: ($tablet-breakpoint + 1px)) {
     .display-hint {
         position: fixed;
         bottom: 0px;
@@ -156,11 +161,17 @@ function scrollToLeaderboards() {
         justify-content: center;
 
         max-width: fit-content;
-        //background-color: var(--primary-color);
         margin: 0px auto 30px auto;
         border-radius: var(--border-radius);
 
         padding: 10px;
-        // box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
     }
+}
+
+// Mobile Styling
+@media (max-width: $tablet-breakpoint) {
+    .display-hint {
+        display: none;
+    }
+}
 </style>

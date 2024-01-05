@@ -6,9 +6,8 @@
 
         <div class="hero-content">
             <h1>Every day could be a party!</h1>
-            <h2>But is today your confetti moment?</h2>
             <div class="buttons">
-                <button class="btn btn-primary" @click="emit('openDialog')">Find out Now!</button>
+                <button class="btn btn-primary" @click="emit('openDialog')">Is today your confetti moment?</button>
             </div>
         </div>
     </div>
@@ -18,7 +17,11 @@
 const emit = defineEmits(['openDialog']);
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+@import '@/theme.scss';
+
+// Desktop Styling
+@media (min-width: ($tablet-breakpoint + 1px)) {
     .hero {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -31,12 +34,8 @@ const emit = defineEmits(['openDialog']);
         max-width: 600px;
         font-weight: 800;
 
-        margin-bottom: 0rem;
-    }
-
-    .hero h2 {
-        font-size: 2rem;
         margin-bottom: 2rem;
+        
     }
 
     .hero .buttons {
@@ -63,5 +62,41 @@ const emit = defineEmits(['openDialog']);
         flex-direction: column;
         align-items: flex-start;
         justify-content: center;
+    }
+}
+
+// Mobile styling
+@media (max-width: $tablet-breakpoint) {
+    .hero {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .hero-image img {
+        height: 35svh;
+    }
+
+    .hero-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .hero-content h1 {
+        font-size: 2.5rem;
+        max-width: 600px;
+        font-weight: 800;
+
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    .hero-content button {
+        font-size: 1.25rem;
+        margin-bottom: 2.5rem;
+    }
 }
 </style>

@@ -39,37 +39,65 @@ const streakMessages = computed(() => {
 </script>
 
 <style lang="scss" scoped>
-.leaderboard-table {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 90%;
+@import '@/theme.scss';
 
-    --rank-color: var(--on-primary-color);
-    --background-color: var(--primary-color);
+// Desktop Styling
+@media (min-width: ($tablet-breakpoint + 1px)) {
+    .leaderboard-table {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 90%;
+
+        --rank-color: var(--on-primary-color);
+        --background-color: var(--primary-color);
+    }
+
+    .leaderboard-table > *:nth-child(1),
+    .leaderboard-table > *:nth-child(2),
+    .leaderboard-table > *:nth-child(3) {
+        --rank-color: var(--on-secondary-color);
+        --background-color: var(--secondary-color);
+    }
+
+    .leaderboard-table > *:nth-child(1) {
+        --row-margin: 0px;
+    }
+
+    .leaderboard-table > *:nth-child(2) {
+        --row-margin: 30px;
+    }
+
+    .leaderboard-table > *:nth-child(3) {
+        --row-margin: 60px;
+    }
+
+    .leaderboard-table > *:nth-child(n+4) {
+        --row-margin: 90px;
+    }
 }
 
-.leaderboard-table > *:nth-child(1),
-.leaderboard-table > *:nth-child(2),
-.leaderboard-table > *:nth-child(3) {
-    --rank-color: var(--on-secondary-color);
-    --background-color: var(--secondary-color);
-}
+@media (max-width: $tablet-breakpoint) {
+    .leaderboard-table {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 90%;
+        row-gap: 10px;
 
-.leaderboard-table > *:nth-child(1) {
-    --row-margin: 0px;
-}
+        margin: 0px auto 30px auto;
 
-.leaderboard-table > *:nth-child(2) {
-    --row-margin: 30px;
-}
+        --rank-color: var(--on-primary-color);
+        --background-color: var(--primary-color);
+    }
 
-.leaderboard-table > *:nth-child(3) {
-    --row-margin: 60px;
-}
-
-.leaderboard-table > *:nth-child(n+4) {
-    --row-margin: 90px;
+    .leaderboard-table > *:nth-child(1),
+    .leaderboard-table > *:nth-child(2),
+    .leaderboard-table > *:nth-child(3) {
+        --rank-color: var(--on-secondary-color);
+        --background-color: var(--secondary-color);
+    }
 }
 </style>

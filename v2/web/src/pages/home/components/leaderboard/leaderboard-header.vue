@@ -33,6 +33,11 @@ const emit = defineEmits(['update:currentTab']);
 </script>
 
 <style lang="scss" scoped>
+@import '@/theme.scss';
+
+// Desktop Styling
+@media (min-width: ($tablet-breakpoint + 1px)) {
+
     .tabbed-table .tabbed-table__header {
         --grid-gap: 35px;
 
@@ -91,4 +96,58 @@ const emit = defineEmits(['update:currentTab']);
         margin: unset;
         user-select: none;
     }
+}
+
+@media (max-width: $tablet-breakpoint) {
+    .tabbed-table[data-current-tab='birthday-streak'] .tab[data-tab='streak'] {
+        opacity: 0.5;
+    }
+
+    .tabbed-table[data-current-tab='birthday-streak'] .tab[data-tab='birthday-streak'] {
+        &::after {
+            transform: scaleX(1);
+        }
+    }
+
+    .tabbed-table[data-current-tab='streak'] .tab[data-tab='birthday-streak'] {
+        opacity: 0.5;
+    }
+
+    .tabbed-table[data-current-tab='streak'] .tab[data-tab='streak'] {
+        &::after {
+            transform: scaleX(1);
+        }
+    }
+
+    .tabbed-table .tab {
+        position: relative;
+        cursor: pointer;
+        width: fit-content;
+        height: 100%;
+
+        font-size: 1.1rem;
+        font-weight: 800;
+        padding: 0px 20px;
+
+        transition: opacity 0.35s ease-in-out;
+        user-select: none;
+
+        &::after {
+            position: absolute;
+            content: '';
+            display: block;
+
+            width: calc(100% - 40px);
+            height: 3px;
+            bottom: 0px;
+
+            background-color: var(--secondary-color);
+            z-index: 0;
+            border-radius: var(--border-radius);
+
+            transform: scaleX(0);
+            transition: transform 0.35s ease-in-out;
+        }
+    }
+}
 </style>

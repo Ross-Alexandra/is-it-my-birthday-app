@@ -23,42 +23,74 @@ defineProps<{
 </script>
 
 <style lang="scss" scoped>
-.leaderboard-table-row {
-    display: grid;
-    grid-template-columns: 1fr 2fr 1fr;
-    align-items: center;
-    justify-items: start;
-    width: calc(100% - var(--row-margin));
-    height: 100%;
-    padding: 10px 50px;
+@import '@/theme.scss';
 
-    background-color: var(--background-color);
-    margin: 0px var(--row-margin) 3px 0px;
+// Desktop Styling
+@media (min-width: ($tablet-breakpoint + 1px)) {
+    .leaderboard-table-row {
+        display: grid;
+        grid-template-columns: 1fr 2fr 1fr;
+        align-items: center;
+        justify-items: start;
+        width: calc(100% - var(--row-margin));
+        height: 100%;
+        padding: 10px 50px;
 
-    border-radius: var(--border-radius);
+        background-color: var(--background-color);
+        margin: 0px var(--row-margin) 3px 0px;
 
-    &:last-child {
-        border-bottom: none;
+        border-radius: var(--border-radius);
+
+        &:last-child {
+            border-bottom: none;
+        }
+
+        h2 {
+            font-size: 2rem;
+        }
+
+        h3 {
+            font-size: 1.5rem;
+        }
+
+        h2, h3, p {
+                font-weight: 800;
+                color: var(--rank-color);
+        }
+
+        &__user {
+            display: flex;
+            flex-direction: column;
+
+            h3, p {
+                margin: unset;
+            }
+        }
     }
+}
 
-    h2 {
-        font-size: 2rem;
-    }
+@media (max-width: $tablet-breakpoint) {
+    .leaderboard-table-row {
+        display: grid;
+        
+        grid-template-columns: 1fr 3fr;
+        gap: 10px;
+        place-items: center;
+        width: 100%;
 
-    h3 {
-        font-size: 1.5rem;
-    }
+        padding: 10px 20px;
 
-    h2, h3, p {
-            font-weight: 800;
-            color: var(--rank-color);
-    }
+        background-color: var(--background-color);
+        margin: 0px var(--row-margin) 3px 0px;
 
-    &__user {
-        display: flex;
-        flex-direction: column;
+        border-radius: var(--border-radius);
 
-        h3, p {
+
+        &__user {
+            justify-self: start;
+        }
+
+        p, h3 {
             margin: unset;
         }
     }
