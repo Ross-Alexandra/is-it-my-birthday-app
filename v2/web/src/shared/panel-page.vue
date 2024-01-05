@@ -19,7 +19,8 @@
         flex-direction: column;
         align-items: start;
 
-        overflow: auto;
+        overflow-y: auto;
+        overflow-x: hidden;
         width: max-content;
 
         padding: 10px 25px;

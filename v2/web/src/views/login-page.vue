@@ -31,6 +31,10 @@ import PanelPage from '@/shared/panel-page.vue';
 // Desktop Styling
 @media (min-width: ($tablet-breakpoint + 1px)) {
     .login-panel {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
         input {
             margin-bottom: 10px;
         }
@@ -39,7 +43,15 @@ import PanelPage from '@/shared/panel-page.vue';
 
 @media (max-width: $tablet-breakpoint) {
     .login-panel {
-        
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        min-height: 0px;
+
+        input {
+            margin-bottom: 10px;
+        }
     }
 }
 </style>

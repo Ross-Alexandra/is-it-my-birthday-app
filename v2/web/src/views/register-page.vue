@@ -114,6 +114,8 @@ function setMonth(month: Months) {
         display: flex;
         flex-direction: column;
 
+        max-width: 75vw;
+
         h1 {
             margin: 0px 0px 10px 0px;
         }
@@ -237,7 +239,8 @@ function setMonth(month: Months) {
         }
 
         button {
-            align-self: start;
+            margin-top: 10px;
+            align-self: center;
         }
     }
 
@@ -274,6 +277,7 @@ function setMonth(month: Months) {
     .register-info {
         display: flex;
         flex-direction: column;
+        align-items: center;
         gap: 10px;
 
         .register-title {
@@ -283,14 +287,6 @@ function setMonth(month: Months) {
 
     .register-info > label[data-for="name"] > input {
         margin-bottom: 10px;
-    }
-
-    .register-info > label[data-for="birthday"] {
-        width: 100%;
-        }
-
-    button {
-        margin-top: 10px;
     }
 
     .divider {
