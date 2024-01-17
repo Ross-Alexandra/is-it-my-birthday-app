@@ -1,4 +1,4 @@
-echo 'Starting the users development server...'
+echo 'Starting the auth development server...'
 
 # Setup the enviroment variables for local development of the app.
 export IIMB_ENV=dev
@@ -8,7 +8,7 @@ export IIMB_DB_PASSWORD=password
 export IIMB_DB_NAME=iimb
 export IIMB_AUTH_SECRET=secret
 
-(cd $IIMB_HOME/users && uvicorn main:app --reload --port 8000)
+(cd $IIMB_HOME/auth && uvicorn main:app --reload --port 8000)
 
 # Reset the enviroment variable when we're done with the app.
 export IIMB_ENV=

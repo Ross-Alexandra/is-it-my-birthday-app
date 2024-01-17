@@ -1,4 +1,5 @@
 import { RouteRecordRaw, createRouter, createWebHistory } from 'vue-router';
+import { AuthApi } from '@/apis';
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -12,6 +13,16 @@ const routes: Array<RouteRecordRaw> = [
     path: '/login',
     name: 'Login',
     component: () => import('@/views/login-page.vue'),
+  }, {
+    path: '/logout',
+    name: 'Logout',
+    component: () => {/* Not a real route! */},
+    beforeEnter: async () => {
+        await AuthApi.get('/logout');
+        return {
+            name: 'Home'
+        }
+    }
   }, {
     path: '/signup',
     name: 'Signup',

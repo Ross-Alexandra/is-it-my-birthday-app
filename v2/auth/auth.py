@@ -16,7 +16,7 @@ def create_access_token(user_id):
         'exp': datetime.utcnow() + timedelta(minutes=JWT_EXPIRES_MINUTES),
     }
     
-    return jwt.encode(to_encode, AUTH_SECRET, algorithm=ALGORITHM)
+    return jwt.encode(to_encode, AUTH_SECRET, algorithm=ALGORITHM), to_encode['exp']
 
 def verify_jwt(token):
     try:

@@ -1,57 +1,27 @@
 <template>
-    <panel-page class="login-panel">
-        <h1>Welcome back to the pre-party!</h1>
-        <img 
-            src="/assets/login.png"
-            width="200px"
-            height="200px"
-            alt="register"
-        />
-
-        <input
-            type="email"
-            name="email"
-            placeholder="Email"
-            required
-        />
-
-        <button class="btn btn-primary">
-            Rejoin the Celebration!
-        </button>
-    </panel-page>
+    <login-form
+        v-if="!loginAttempted && !isVerificationRoute"
+        @login="login"
+    />
+    <login-waiting-email v-else-if="!isVerificationRoute" />
+    <verify-login v-else />
 </template>
 
 <script setup lang="ts">
-import PanelPage from '@/shared/panel-page.vue';
+import LoginForm from '@/pages/login/login-form.vue';
+import VerifyLogin from '@/pages/login/verify-login.vue';
+import LoginWaitingEmail from '@/pages/login/login-waiting-email.vue';
+import { ref, computed } from 'vue';
+import { useRoute } from 'vue-router';
+import { AuthApi } from '@/apis';
+
+const route = useRoute();
+const isVerificationRoute = computed(() => !!route?.query?.v);
+const loginAttempted = ref(false);
+
+function login(email: string) {
+    AuthApi.post('/login', { email });
+    loginAttempted.value = true;
+}
 </script>
 
-<style lang='scss' scoped>
-@import '@/theme.scss';
-
-// Desktop Styling
-@media (min-width: ($tablet-breakpoint + 1px)) {
-    .login-panel {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-
-        input {
-            margin-bottom: 10px;
-        }
-    }
-}
-
-@media (max-width: $tablet-breakpoint) {
-    .login-panel {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-
-        min-height: 0px;
-
-        input {
-            margin-bottom: 10px;
-        }
-    }
-}
-</style>

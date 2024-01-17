@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
-from fastapi import FastAPI, Request, Response, Depends
+from fastapi import FastAPI, Request, Response
+from fastapi.middleware.cors import CORSMiddleware
 import os
 
 from auth import create_access_token, verify_jwt
@@ -27,11 +28,27 @@ def request_login(cnx, user_id, name, email):
 app = FastAPI()
 environment = os.environ.get('IIMB_ENV', 'prod')
 
+origins = [
+    'https://isitmybirth.day',
+    'https://www.isitmybirth.day',  
+]
+
+if environment == 'dev':
+    origins.append('http://localhost:8080')
+    
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=['*'],
+    allow_headers=['*'],
+)
+
 @app.middleware('http')
 def optimistic_auth(request: Request, call_next):
     request.state.user_id = None
     
-    auth = request.headers.get('Authorization', '')
+    auth = request.cookies.get('access_token', '')
 
     if auth.startswith('Bearer'):
         auth = auth.split(' ')[1]
@@ -51,16 +68,16 @@ async def register(request: Request):
     birth_month = data.get('birth_month', None)
     
     if email is None:
-        return {'error': 'email not provided'}
+        return {'error': 'email_not_provided'}
     
     if name is None:
-        return {'error': 'name not provided'}
+        return {'error': 'name_not_provided'}
     
     if birth_day is None:
-        return {'error': 'birth_day not provided'}
+        return {'error': 'birth_day_not_provided'}
     
     if birth_month is None:
-        return {'error': 'birth_month not provided'}
+        return {'error': 'birth_month_not_provided'}
     
     cnx = get_db_connection()
     cur = cnx.cursor()
@@ -68,7 +85,7 @@ async def register(request: Request):
     
     res = cur.fetchone()
     if res is not None:
-        return {'error': 'user already exists'}
+        return {'error': 'user_already_exists'}
     
     cur.execute('INSERT INTO users (email, display_name, birth_day, birth_month) VALUES (%s, %s, %s, %s)', (email, name, birth_day, birth_month))
     cnx.commit()
@@ -83,7 +100,7 @@ async def login(request: Request):
     email = data.get('email', None)
     
     if email is None:
-        return {'error': 'email not provided'}
+        return {'error': 'email_not_provided'}
     
     cnx = get_db_connection()
     cur = cnx.cursor()
@@ -91,7 +108,7 @@ async def login(request: Request):
     
     res = cur.fetchone()
     if res is None:
-        return {'error': 'user not found'}
+        return {'error': 'user_not_found'}
     
     user_id, name = res
 
@@ -103,7 +120,7 @@ async def verify(request: Request, response: Response):
     login_secret = request.query_params.get('v', None)
     
     if login_secret is None:
-        return {'error': 'login_secret not provided'}
+        return {'error': 'login_secret_not_provided'}
     
     cnx = get_db_connection()
     cur = cnx.cursor()
@@ -112,21 +129,31 @@ async def verify(request: Request, response: Response):
     res = cur.fetchone()
     
     if res is None:
-        return {'error': 'login_secret not found'}
+        return {'error': 'login_secret_not_found'}
     
     user_id = res[0]
     cur.execute('DELETE FROM login_attempts WHERE user_id = %s', (user_id,))
     cnx.commit()
     
     if res[1] < datetime.utcnow() - timedelta(minutes=10):
-        return {'error': 'login_secret expired'}
+        return {'error': 'login_secret_expired'}
     
-    access_token = create_access_token(user_id)
+    access_token, expiry = create_access_token(user_id)
     
-    return {
-        'token_type': 'bearer',
-        'access_token': access_token
-    }
+    response.set_cookie(
+        'access_token',
+        f'Bearer {access_token}',
+        httponly=True,
+        expires=expiry,
+        secure=environment == 'prod',
+        samesite='strict' if environment == 'prod' else 'lax',
+    )
+    return {'success': True}
+
+@app.get('/logout')
+async def logout(response: Response):
+    response.delete_cookie('access_token')
+    return {'success': True}
 
 if environment == 'dev':
     @app.get('/auth-test')
