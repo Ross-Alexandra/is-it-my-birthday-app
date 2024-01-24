@@ -30,7 +30,9 @@ environment = os.environ.get('IIMB_ENV', 'prod')
 
 origins = [
     'https://isitmybirth.day',
+    'https://isitmybirth.day/',
     'https://www.isitmybirth.day',  
+    'https://www.isitmybirth.day/',  
 ]
 
 if environment == 'dev':
@@ -40,7 +42,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
     allow_credentials=True,
-    allow_methods=['*'],
+    allow_methods=['GET', 'POST', 'OPTIONS', 'DELETE', 'PUT'],
     allow_headers=['*'],
 )
 
@@ -159,3 +161,23 @@ if environment == 'dev':
     @app.get('/auth-test')
     async def test(request: Request):
         return {'user_id': request.state.user_id}
+
+@app.get('/me')
+async def me(request: Request):
+    if (request.state.user_id is None):
+        return {'error': 'not_logged_in'}
+    
+    cnx = get_db_connection()
+    cur = cnx.cursor()
+    cur.execute('SELECT display_name, birth_day, birth_month FROM users WHERE id = %s', (request.state.user_id,))
+    
+    res = cur.fetchone()
+    if res is None:
+        return {'error': 'user_not_found'}
+    
+    name, birth_day, birth_month = res
+    return {
+        'id': request.state.user_id,
+        'name': name,
+        'birthday': f'{birth_day}-{birth_month}',
+    }

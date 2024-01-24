@@ -118,7 +118,7 @@
             <div class="divider" />
 
             <p class="legal">
-                Say goodbye to passwords! Sign in swiftly with a secure link sent straight to your email. Safe, simple, and no passwords to remember!
+                Say goodbye to passwords! Sign in with a secure link sent straight to your email. Safe, simple, and no passwords to remember!
             </p>
         </div>
     </panel-page>

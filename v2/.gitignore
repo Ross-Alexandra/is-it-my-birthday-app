@@ -33,3 +33,5 @@ web/node_modules/*
 /platforms
 /plugins
 /www
+
+__pycache__/

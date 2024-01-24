@@ -1,15 +1,15 @@
-# Description: Executes npm commands from the web directory as if you were in the
-#   web directory.
-# Usage: web <npm_command as if it were npm run prefixed>
+#!/bin/bash
+
+# Description: Shortcut for calling functions in the leaderboard bin directory. 
+# Usage: web <function_name> <function_arguments>
 function web() {
+    if [ -z "$1" ]; then
+        echo "Usage: web <function_name> <function_arguments>"
+        return
+    fi
 
-    # Setup the environment variables for the web app.
-    export VUE_APP_AUTH_URL=http://localhost:8000;
-    export VUE_APP_ENV=development;
+    cmd_path=$IIMB_HOME/web/bin/$1.sh
+    shift;
 
-    (cd $IIMB_HOME/web && npm run $@);
-
-    # Unset the environment variables for the web app.
-    export VUE_APP_AUTH_URL=
-    export VUE_APP_ENV=
+    /bin/bash $cmd_path $@;
 }

@@ -3,6 +3,7 @@ echo 'Starting the auth development server...'
 # Setup the enviroment variables for local development of the app.
 export IIMB_ENV=dev
 export IIMB_DB_HOST=localhost
+export IIMB_DB_PORT=3306
 export IIMB_DB_USER=root
 export IIMB_DB_PASSWORD=password
 export IIMB_DB_NAME=iimb

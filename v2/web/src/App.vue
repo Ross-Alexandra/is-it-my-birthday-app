@@ -15,6 +15,7 @@ import { onMounted, ref } from 'vue';
 import { RouterView } from 'vue-router';
 import { AuthApi } from './apis';
 
+console.log('load 2', process.env);
 const isDevelopment = process.env?.VUE_APP_ENV === 'development';
 const authId = ref('fetching...');
 onMounted(async () => {
