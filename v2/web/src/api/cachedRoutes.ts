@@ -46,10 +46,7 @@ export function cachedRoutes<T extends RouteConfig<T>>(routes: T): {[K in keyof 
             cacheKey = routeConfig.cacheKey(...args);
         }
 
-        console.log('cacheKey', cacheKey);
-
         const cacheHit = getCache(cacheKey);
-        console.log('cacheHit!', cacheHit);
         if (cacheHit) {
             return {
                 ...cacheHit,
