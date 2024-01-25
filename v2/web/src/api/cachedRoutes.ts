@@ -48,18 +48,12 @@ export function cachedRoutes<T extends RouteConfig<T>>(routes: T): {[K in keyof 
 
         const cacheHit = getCache(cacheKey);
         if (cacheHit) {
-            return {
-                ...cacheHit,
-                cached: true,
-            };
+            return cacheHit
         }
 
         const apiResponse = await routeConfig.handler(...args);
         setCache(cacheKey, apiResponse, cacheDuration);
 
-        return {
-            ...apiResponse,
-            cached: false,
-        };
+        return apiResponse;
     }
 }
