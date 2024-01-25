@@ -1,6 +1,15 @@
-# Description: Executes npm commands from the web directory as if you were in the
-#   web directory.
-# Usage: web <npm_command as if it were npm run prefixed>
+#!/bin/bash
+
+# Description: Shortcut for calling functions in the leaderboard bin directory. 
+# Usage: web <function_name> <function_arguments>
 function web() {
-    (cd $IIMB_HOME/web && npm run $@)
+    if [ -z "$1" ]; then
+        echo "Usage: web <function_name> <function_arguments>"
+        return
+    fi
+
+    cmd_path=$IIMB_HOME/web/bin/$1.sh
+    shift;
+
+    /bin/bash $cmd_path $@;
 }

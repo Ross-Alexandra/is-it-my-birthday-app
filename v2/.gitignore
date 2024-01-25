@@ -34,3 +34,5 @@ web/package-lock.json
 /platforms
 /plugins
 /www
+
+__pycache__/

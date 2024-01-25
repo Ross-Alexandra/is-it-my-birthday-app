@@ -17,7 +17,7 @@
 
         display: flex;
         flex-direction: column;
-        align-items: start;
+        align-items: flex-start;
 
         overflow-y: auto;
         overflow-x: hidden;
@@ -43,7 +43,7 @@
 
         display: flex;
         flex-direction: column;
-        align-items: start;
+        align-items: flex-start;
 
         overflow: auto;
 

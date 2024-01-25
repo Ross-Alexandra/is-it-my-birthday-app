@@ -8,7 +8,10 @@ function leaderboard() {
         return
     fi
 
-    /bin/bash $IIMB_HOME/leaderboard/bin/$1.sh $@;
+    cmd_path=$IIMB_HOME/leaderboard/bin/$1.sh
+    shift;
+
+    /bin/bash $cmd_path $@;
 }
 
 # Shortcut for calling functions in the leaderboard bin directory.

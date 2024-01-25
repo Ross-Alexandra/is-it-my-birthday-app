@@ -45,13 +45,26 @@
                 {{ todaysMessage }}
             </button>
 
-            <router-link
-                v-else
-                to="/signup"
-                class="sign-up-message"
+            <div
+                v-else-if="!userIsLoggedIn"
+                class="account-messages"
             >
-                Sign up to get on the leaderboard!
-            </router-link>
+                <router-link
+                    to="/signup"
+                    class="sign-up-message"
+                >
+                    Sign up to get on the leaderboard!
+                </router-link>
+
+                <span>-or-</span>
+
+                <router-link
+                    to="/login"
+                    class="sign-up-message"
+                >
+                    log in to count your confetti moments!
+                </router-link>
+            </div>
         </div>
     </div>
 </template>
@@ -62,9 +75,11 @@ import { getBirthday } from '@/utils/getBirthday';
 import { random } from '@/utils/seededRandom';
 import PopupMessages from '@/copy/popup-messages.json';
 import BirthdayInput, { getMonthNumber } from '@/shared/birthday-input.vue';
+import { isLoggedIn } from '@/utils/isLoggedIn';
 import type { Months } from '@/shared/birthday-input.vue';
 
 const userBirthday = await getBirthday();
+const userIsLoggedIn = await isLoggedIn();
 
 const emit = defineEmits(['close-dialog']);
 
@@ -181,11 +196,24 @@ function randomMessage(type: keyof typeof PopupMessages) {
         }
     }
 
-    .sign-up-message {
-        font-size: 1.1rem;
-        color: var(--primary-font-color);
-        text-decoration: underline;
-        cursor: pointer;
+    .account-messages {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        margin-top: 15px;
+
+        span {
+            font-size: 1rem;
+        }
+
+        a {
+            font-size: 1.1rem;
+            color: var(--primary-font-color);
+            text-decoration: underline;
+            cursor: pointer;
+        }
     }
 }
 
@@ -228,10 +256,25 @@ function randomMessage(type: keyof typeof PopupMessages) {
         }
     }
 
-    .sign-up-message {
-        color: var(--primary-font-color);
-        text-decoration: underline;
-        cursor: pointer;
+    .account-messages {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        margin-top: 15px;
+
+        span {
+            font-size: 1rem;
+        }
+
+        a {
+            font-size: 1.1rem;
+            color: var(--primary-font-color);
+            text-decoration: underline;
+            cursor: pointer;
+            text-align: center;
+        }
     }
 }
 </style>

@@ -4,13 +4,13 @@
         title="psst, you can scroll me!"
     >
         <scrolling-input
-            :initialIndex="5"
+            :initialIndex="getMonthNumber(props.initialMonth) - 1"
             :options="(months as unknown as string[])"
             @change="(nextValue: typeof months[number]) => emit('change:month', nextValue)"
         />
 
         <scrolling-input
-            :initialIndex="14"
+            :initialIndex="props.initialDay - 1"
             :options="Array.from({ length: 31 }, (_, i) => i + 1).map(day => day.toString().padStart(2, '0'))"
             @change="(nextValue: string) => emit('change:day', nextValue)"
         />
@@ -42,6 +42,14 @@ export type Months = typeof months[number];
 
 <script setup lang="ts">
 import ScrollingInput from '@/shared/internal/scrolling-input.vue';
+
+const props = withDefaults(defineProps<{
+    initialMonth?: Months;
+    initialDay?: number;
+}>(), {
+    initialMonth: 'June',
+    initialDay: 15,
+});
 
 const emit = defineEmits(['change:month', 'change:day']);
 </script>

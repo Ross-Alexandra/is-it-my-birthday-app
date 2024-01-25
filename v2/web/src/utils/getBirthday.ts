@@ -1,18 +1,16 @@
+import { BirthdayString } from '@/types/birthday';
 import { isLoggedIn } from './isLoggedIn';
 import { parseBirthday } from './parseBirthday';
-import type { BirthdayString } from '@/types/birthday';
 
 export async function getBirthday() {
     const user = await isLoggedIn();
 
     if (!user) {
-        const birthday = localStorage.getItem('birthday') as BirthdayString;
-        if (!birthday) {
+        const storedBirthday = localStorage.getItem('birthday') as BirthdayString;
+        if (storedBirthday) {
+            return parseBirthday(storedBirthday);
+        } else {
             return null;
         }
-
-        return parseBirthday(birthday);
-    } else {
-        return parseBirthday(user.birthday);
     }
 }
