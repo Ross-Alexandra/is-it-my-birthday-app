@@ -31,22 +31,22 @@ export type AuthResponses = {
 export const AuthApi = cachedRoutes({
     login: {
         handler: (email: string) => _api.post<AuthResponses['login']>('/login', { email }),
-        duration: '0s',
+        duration: '30s', // There's no reason a user should be logging in more than once every 30 seconds.
     },
     logout: {
         handler: () => _api.get<AuthResponses['logout']>('/logout'),
         duration: '0s',
     },
     me: {
-        handler: () => _api.get('/me'),
+        handler: () => _api.get<AuthResponses['me']>('/me'),
         duration: '5m',
     },
     register: {
-        handler: (data: RegisterData) => _api.post('/register', data),
+        handler: (data: RegisterData) => _api.post<AuthResponses['register']>('/register', data),
         duration: '30s',
     }, 
     verifyEmail: {
-        handler: (token: string) => _api.get(`/verify?v=${token}`),
+        handler: (token: string) => _api.get<AuthResponses['verifyEmail']>(`/verify?v=${token}`),
         duration: '0s',
     },
 });
