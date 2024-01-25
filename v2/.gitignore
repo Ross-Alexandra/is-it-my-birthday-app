@@ -19,6 +19,7 @@ npm-debug.log*
 
 web/dist/*
 web/node_modules/*
+web/package-lock.json
 
 /.idea
 /.ionic
