@@ -1,5 +1,5 @@
 import { RouteRecordRaw, createRouter, createWebHistory } from 'vue-router';
-import { AuthApi } from '@/apis';
+import { AuthApi } from '@/api/auth';
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -17,10 +17,13 @@ const routes: Array<RouteRecordRaw> = [
     path: '/logout',
     name: 'Logout',
     component: () => {/* Not a real route! */},
-    beforeEnter: async () => {
-        await AuthApi.get('/logout');
-        return {
-            name: 'Home'
+    beforeEnter: () => {
+        try {
+            AuthApi.logout();
+        } finally {
+            // Do a hard redirect to the home page, so that any stored state
+            // (in-memory caching for example) get cleared.
+            window.location.href = '/home';
         }
     }
   }, {

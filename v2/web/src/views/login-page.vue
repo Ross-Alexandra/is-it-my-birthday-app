@@ -13,14 +13,14 @@ import VerifyLogin from '@/pages/login/verify-login.vue';
 import LoginWaitingEmail from '@/pages/login/login-waiting-email.vue';
 import { ref, computed } from 'vue';
 import { useRoute } from 'vue-router';
-import { AuthApi } from '@/apis';
+import { AuthApi } from '@/api/auth';
 
 const route = useRoute();
 const isVerificationRoute = computed(() => !!route?.query?.v);
 const loginAttempted = ref(false);
 
 function login(email: string) {
-    AuthApi.post('/login', { email });
+    AuthApi.login(email);
     loginAttempted.value = true;
 }
 </script>

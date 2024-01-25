@@ -1,9 +1,10 @@
-import { AuthApi } from '@/apis';
+import { AuthApi } from '@/api/auth';
 
 export async function isLoggedIn() {
     try {
-        const me = await AuthApi.get('/me');
+        const me = await AuthApi.me();
 
+        console.log('got me!', me);
         if (!me.data.error) {
             return me.data;
         }

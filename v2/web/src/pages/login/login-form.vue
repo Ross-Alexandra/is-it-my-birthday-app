@@ -13,6 +13,7 @@
             name="email"
             placeholder="Email"
             v-model="email"
+            @keyup.enter="login"
         />
 
         <button

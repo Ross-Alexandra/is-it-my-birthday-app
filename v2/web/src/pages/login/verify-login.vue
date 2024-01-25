@@ -31,9 +31,9 @@
 import PanelPage from '@/shared/panel-page.vue';
 import { ref, onMounted } from 'vue';
 import router from '@/router';
-import { AuthApi } from '@/apis';
+import { AuthApi } from '@/api/auth';
 
-const countdown = ref(5);
+const countdown = ref(3);
 const verificationStatus = ref<'pending' | 'success' | 'error'>('pending');
 
 function startCountdown() {
@@ -49,7 +49,7 @@ function startCountdown() {
 
 onMounted(async () => {
     try {
-        const response = await AuthApi.get(`/verify?v=${router.currentRoute.value.query.v}`)
+        const response = await AuthApi.verifyEmail(router.currentRoute.value.query.v as string);
         if ('error' in response.data) {
             throw new Error(response.data.error);
         }

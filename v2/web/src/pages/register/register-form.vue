@@ -36,7 +36,7 @@
 
             <div class="divider" />
 
-            <div class="register-info">
+            <div class="register-info" @keyup.enter="signup">
                 <h3 class="register-title">Your Info</h3>
 
                 <label data-for="name">
@@ -127,10 +127,13 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
 import BirthdayInput, { getMonthNumber } from '@/shared/birthday-input.vue';
-import type { Months } from '@/shared/birthday-input.vue';
 import PanelPage from '@/shared/panel-page.vue';
+import type { Months } from '@/shared/birthday-input.vue';
+import type { RegisterData } from '@/api/auth';
 
-const emit = defineEmits(['signup']);
+const emit = defineEmits<{
+    signup: [data: RegisterData];
+}>();
 const props = defineProps<{
     registerError: string | null;
 }>();
