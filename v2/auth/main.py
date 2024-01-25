@@ -169,15 +169,15 @@ async def me(request: Request):
     
     cnx = get_db_connection()
     cur = cnx.cursor()
-    cur.execute('SELECT display_name, birth_day, birth_month FROM users WHERE id = %s', (request.state.user_id,))
+    cur.execute('SELECT display_name, birth_month, birth_day FROM users WHERE id = %s', (request.state.user_id,))
     
     res = cur.fetchone()
     if res is None:
         return {'error': 'user_not_found'}
     
-    name, birth_day, birth_month = res
+    name, birth_month, birth_day = res
     return {
         'id': request.state.user_id,
         'name': name,
-        'birthday': f'{birth_day}-{birth_month}',
+        'birthday': f'{birth_month}-{birth_day}',
     }
