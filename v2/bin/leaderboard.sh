@@ -8,7 +8,7 @@ function leaderboard() {
         return
     fi
 
-    cmd_path=$IIMB_HOME/leaderboard/bin/$1.sh
+    cmd_path=$IIMB_HOME/server/leaderboard/bin/$1.sh
     shift;
 
     /bin/bash $cmd_path $@;

@@ -20,3 +20,13 @@ CREATE TABLE IF NOT EXISTS login_attempts (
     PRIMARY KEY (id),
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
+
+CREATE TABLE IF NOT EXISTS streaks (
+    id INT NOT NULL AUTO_INCREMENT,
+    user_id INT NOT NULL,
+    current_streak INT NOT NULL,
+    last_checkin_at DATETIME NOT NULL,
+
+    PRIMARY KEY (id),
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);

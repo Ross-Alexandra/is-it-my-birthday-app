@@ -9,7 +9,8 @@ export IIMB_DB_PASSWORD=password
 export IIMB_DB_NAME=iimb
 export IIMB_AUTH_SECRET=secret
 
-(cd $IIMB_HOME/auth && uvicorn main:app --reload --port 8000)
+
+(cd $IIMB_HOME/server/auth && PYTHONPATH=$IIMB_HOME/server/ uvicorn main:app --reload --port 8000)
 
 # Reset the enviroment variable when we're done with the app.
 export IIMB_ENV=
@@ -17,3 +18,4 @@ export IIMB_DB_HOST=
 export IIMB_DB_USER=
 export IIMB_DB_PASSWORD=
 export IIMB_DB_NAME=
+

@@ -2,13 +2,12 @@ from datetime import datetime, timedelta
 from fastapi import FastAPI, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
 import os
-
-from auth import create_access_token, verify_jwt
-from db import get_db_connection
-from send_email import send_email
-
 import random
 import string
+
+from shared.auth import create_access_token, verify_jwt
+from shared.db import get_db_connection
+from utils.send_email import send_email
 
 def generate_unique_url():
     return ''.join(random.choice(string.ascii_letters) for _ in range(30))
