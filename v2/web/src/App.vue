@@ -16,4 +16,3 @@ import { RouterView } from 'vue-router';
     background-color: white;
 }
 </style>
-./apis/apis./api
