@@ -1,5 +1,7 @@
 from datetime import datetime, timedelta
 import os
+from fastapi import Request
+from starlette.middleware.base import BaseHTTPMiddleware
 from jose import jwt
 
 AUTH_SECRET = os.environ.get('IIMB_AUTH_SECRET', None)
@@ -25,3 +27,18 @@ def verify_jwt(token):
         return payload['sub']
     except Exception as e:
         return None
+
+class OptimisticAuthMiddleware(BaseHTTPMiddleware):
+    async def dispatch(self, request: Request, call_next):
+        request.state.user_id = None
+        
+        auth = request.cookies.get('access_token', '')
+
+        if auth.startswith('Bearer'):
+            auth = auth.split(' ')[1]
+            payload = verify_jwt(auth)
+            
+            if payload is not None:
+                request.state.user_id = payload
+                
+        return await call_next(request)

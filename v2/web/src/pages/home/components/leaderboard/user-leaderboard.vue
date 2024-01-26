@@ -13,10 +13,21 @@
             @update:currentTab="nextTab => currentTab = nextTab"
         />
 
-        <leaderboard-table 
-            :users="currentTab === 'birthday-streak' ? birthdayStreakUsers : streakUsers"
+        <leaderboard-table
+            v-if="streakUsers !== null && streakUsers.length > 0"
+            :users="streakUsers"
             :streak-type="currentTab"
         />
+
+        <p
+            class="no-data-message" 
+            v-else-if="streakUsers !== null && streakUsers.length === 0"
+        >
+            No streaks yet! Get started by registering an account and
+            checking your birthday!
+        </p>
+
+        <spinning-loader v-else />
     </div>
 </template>
 
@@ -25,46 +36,24 @@ import { onMounted, ref } from 'vue';
 
 import LeaderboardHeader from './leaderboard-header.vue';
 import LeaderboardTable from './leaderboard-table.vue';
+import SpinningLoader from '@/shared/spinning-loader.vue';
+import { StreaksApi } from '@/api/streaks';
+import type { Streak } from '@/api/streaks';
 
 const currentTab = ref<'birthday-streak' | 'streak'>('streak');
+const streakUsers = ref<Streak[] | null>(null);
 
-const birthdayStreakUsers = [{
-    id: 1,
-    name: 'Keirran',
-    rank: 1,
-    streak: 104,
-}, {
-    id: 2,
-    name: 'Callista',
-    rank: 2,
-    streak: 95,
-}, {
-    id: 15,
-    name: 'Ross',
-    streak: 77,
-},{
-    id: 23,
-    name: 'Cassie',
-    streak: 68,
-}, {
-    id: 4,
-    name: 'Michael',
-    streak: 50,
-}];
+onMounted(async () => {
+    const streakType = currentTab.value === 'streak' ? 'daily' : 'birthday';
+    const { data } = await StreaksApi.topStreaks(streakType);
 
-const streakUsers = [{
-    id: 1,
-    name: 'Callista',
-    streak: 54,
-}, {
-    id: 2,
-    name: 'Keirran',
-    streak: 5,
-}, {
-    id: 15,
-    name: 'Ross',
-    streak: 3,
-}];
+    if ('error' in data) {
+        streakUsers.value = [];
+        return;
+    } else {
+        streakUsers.value = data.streaks;
+    }
+});
 
 const displayHint = ref(false);
 onMounted(() => {
@@ -73,7 +62,7 @@ onMounted(() => {
         displayHint.value = !entries[0].isIntersecting;
     }, {
         root: null,
-        rootMargin: '0px',
+        rootMargin: '-30px',
         threshold: 0,
     });
 
@@ -95,6 +84,18 @@ function scrollToLeaderboards() {
 
 // Desktop Styling
 @media (min-width: ($tablet-breakpoint + 1px)) {
+    .no-data-message {
+        text-align: center;
+        margin: 0px auto 2rem auto;
+        padding: 1rem 1rem;
+        background-color: var(--primary-color);
+        border-radius: var(--border-radius);
+
+        font-size: 1.5rem;
+        font-weight: 700;
+        width: 100%;
+    }
+
     .display-hint {
         position: fixed;
         bottom: 0px;
@@ -170,6 +171,17 @@ function scrollToLeaderboards() {
 
 // Mobile Styling
 @media (max-width: $tablet-breakpoint) {
+    .no-data-message {
+        text-align: center;
+        margin: 0px 5px 2rem 5px;
+        padding: 1rem 1rem;
+        background-color: var(--primary-color);
+        border-radius: var(--border-radius);
+
+        font-size: 1.5rem;
+        font-weight: 700;
+    }
+
     .display-hint {
         display: none;
     }
