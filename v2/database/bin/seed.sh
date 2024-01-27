@@ -9,4 +9,4 @@ else
 fi
 
 sql_content=$(cat $IIMB_HOME/database/seed.dev.sql);
-docker-compose -f docker-compose.dev.yml exec database mysql --user=root --password=password --database=iimb --execute="$sql_content";
+docker-compose -f $IIMB_HOME/database/docker-compose.dev.yml exec database mysql --user=root --password=password --database=iimb --execute="$sql_content";

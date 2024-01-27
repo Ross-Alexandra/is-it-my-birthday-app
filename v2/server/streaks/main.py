@@ -27,11 +27,14 @@ def check_in(request: Request):
     today = datetime.now().date()
     
     birth_query = 'SELECT birth_day, birth_month FROM users WHERE id = %s'
-    birth_day, birth_month = cur.execute(birth_query, (user_id,)).fetchone()
+    cur.execute(birth_query, (user_id,))
+    birth_day, birth_month = cur.fetchone()
+    
     streak_type = 'birthday' if (birth_day == today.day and birth_month == today.month) else 'daily'
     
     prev_streak_query = 'SELECT current_streak, last_check_in FROM streaks WHERE user_id = %s AND streak_type = %s'
-    res = cur.execute(prev_streak_query, (user_id, streak_type)).fetchone()
+    cur.execute(prev_streak_query, (user_id, streak_type))
+    res = cur.fetchone()
     
     if (res is None):
         create_streak_query = 'INSERT INTO streaks (user_id, streak_type, current_streak, last_check_in) VALUES (%s, %s, 1, NOW())'
@@ -66,11 +69,11 @@ def top_streaks(request: Request):
             users INNER JOIN streaks ON users.id = streaks.user_id
         WHERE
             streak_type = 'daily' AND
-            last_check_in < SUBDATE(NOW(), INTERVAL 2 DAY)
+            last_check_in > SUBDATE(NOW(), INTERVAL 2 DAY)
         ORDER BY 
             current_streak 
         DESC
-        LIMIT 10
+        LIMIT 10;
     '''
     
     birthday_top_streaks_query = '''
@@ -82,21 +85,23 @@ def top_streaks(request: Request):
             users INNER JOIN streaks ON users.id = streaks.user_id
         WHERE
             streak_type = 'birthday' AND
-            last_check_in > SUBDATE(NOW(), INTERVAL 1 YEAR)
+            last_check_in > SUBDATE(NOW(), INTERVAL 366 DAY)
         ORDER BY 
             current_streak 
         DESC
-        LIMIT 10
+        LIMIT 10;
     '''
     
     streak_type = request.query_params.get('streak_type', 'daily')
     
     if (streak_type == 'daily' or streak_type == 'birthday'):
         cnx = get_db_connection()
-        cur = cnx.cursor()
+        cur = cnx.cursor(dictionary=True)
         
         top_streaks_query = daily_top_streaks_query if (streak_type == 'daily') else birthday_top_streaks_query
-        res = cur.execute(top_streaks_query)
+        cur.execute(top_streaks_query)
+        
+        res = cur.fetchall()
         
         if (res is None):
             return {'error': 'no_streaks_found'}

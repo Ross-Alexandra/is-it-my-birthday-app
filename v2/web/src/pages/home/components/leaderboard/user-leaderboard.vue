@@ -10,7 +10,7 @@
         <leaderboard-header
             :current-tab="currentTab"
             @click="scrollToLeaderboards"
-            @update:currentTab="nextTab => currentTab = nextTab"
+            @update:currentTab="updateCurrentTab"
         />
 
         <leaderboard-table
@@ -43,8 +43,17 @@ import type { Streak } from '@/api/streaks';
 const currentTab = ref<'birthday-streak' | 'streak'>('streak');
 const streakUsers = ref<Streak[] | null>(null);
 
-onMounted(async () => {
-    const streakType = currentTab.value === 'streak' ? 'daily' : 'birthday';
+function updateCurrentTab(nextTab: 'birthday-streak' | 'streak') {
+    currentTab.value = nextTab;
+
+    if (nextTab === 'streak') {
+        fetchStreaks('daily');
+    } else {
+        fetchStreaks('birthday');
+    }
+}
+
+async function fetchStreaks(streakType: 'daily' | 'birthday') {
     const { data } = await StreaksApi.topStreaks(streakType);
 
     if ('error' in data) {
@@ -53,6 +62,10 @@ onMounted(async () => {
     } else {
         streakUsers.value = data.streaks;
     }
+}
+
+onMounted(async () => {
+    await fetchStreaks('daily');
 });
 
 const displayHint = ref(false);

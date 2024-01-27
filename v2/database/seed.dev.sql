@@ -18,6 +18,7 @@ INSERT INTO users(id, display_name, email, birth_day, birth_month) VALUES
 INSERT INTO streaks(user_id, current_streak, last_check_in, streak_type) VALUES
     (1, 15, SUBDATE(NOW(), INTERVAL 500 MINUTE), 'daily'),
     (2, 33, SUBDATE(NOW(), INTERVAL 10 MINUTE), 'daily'),
+    (3, 105, SUBDATE(NOW(), INTERVAL 3 DAY), 'daily'),
     (4, 1, SUBDATE(NOW(), INTERVAL 3 DAY), 'daily'),
     (5, 20, SUBDATE(NOW(), INTERVAL 24 HOUR), 'daily'),
     (6, 1, SUBDATE(NOW(), INTERVAL 24 HOUR), 'daily'),
