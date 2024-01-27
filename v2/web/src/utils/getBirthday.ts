@@ -13,4 +13,6 @@ export async function getBirthday() {
             return null;
         }
     }
+
+    return null;
 }

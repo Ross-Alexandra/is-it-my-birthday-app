@@ -7,19 +7,9 @@
     <user-streak />
 
     <dialog ref="dialog" class="dialog">
-        <suspense>
-            <template #default>
-                <birthday-dialog
-                    @close-dialog="closeDialog"
-                />
-            </template>
-
-            <template #fallback>
-                <div class="dialog-fallback">
-                    <spinning-loader />
-                </div>
-            </template>
-        </suspense>
+        <birthday-dialog
+            @close-dialog="closeDialog"
+        />
     </dialog>
 </template>
 
@@ -29,7 +19,6 @@ import BirthdayDialog from '@/pages/home/components/birthday-dialog.vue';
 import DateBox from '@/pages/home/components/date-box.vue';
 import HeroBanner from '@/pages/home/components/hero-banner.vue';
 import UserStreak from '@/pages/home/components/streak/user-streak.vue';
-import spinningLoader from '@/shared/spinning-loader.vue';
 
 const dialog = ref<HTMLDialogElement | null>(null);
 

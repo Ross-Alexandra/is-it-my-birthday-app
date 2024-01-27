@@ -1,24 +1,21 @@
 import { useApiCache } from './useApiCache';
 import type { CacheDuration } from './useApiCache';
 
-export type RouteConfigEntry<Handler extends (...args: any[]) => any> = {
-    handler: Handler,
+export type Handler<U> = U extends Record<string, any> ? U['handler'] : never;
+export type ApiHandlers<T> = {[K in keyof T]: Handler<T[K]>};
+
+export type RouteConfigEntry<U> = {
+    handler: Handler<U>,
     duration: CacheDuration,
-    cacheKey?: string | ((...args: Parameters<Handler>) => string),
+    cacheKey?: string | ((...args: Parameters<Handler<U>>) => string),
 };
 
 // These really dense types basically just mean that we have an object
 // with any keys, each of which are a RouteConfigEntry. The Generic is needed
 // so that the call signature of the handler is preserved.
-export type RouteConfig<T> = {[K in keyof T]: RouteConfigEntry<T[K] extends Record<string, any> ? T[K]['handler'] : never>};
+export type RouteConfig<T> = {[K in keyof T]: RouteConfigEntry<T[K]>};
 
-export function createCachedApi<T extends RouteConfig<T>>(routes: T): {[K in keyof T]: T[K] extends Record<string, any> ? T[K]['handler'] : never} {
-    
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    // The typing to get here is *really* messy, so we're just going to ignore getting the
-    // return type correct here, it's absolutely not worth the effort for such a simple
-    // transformation.
+export function createCachedApi<T extends RouteConfig<T>>(routes: T): ApiHandlers<T> {
     return Object.fromEntries(
         Object.entries(routes).map(([routeName, routeConfig]: [string, any]) => {
             return [
@@ -26,7 +23,7 @@ export function createCachedApi<T extends RouteConfig<T>>(routes: T): {[K in key
                 cacheOrApi.bind(null, routeName, routeConfig)
             ]
         })
-    );
+    ) as ApiHandlers<T>;
 
     async function cacheOrApi(routeName: string, routeConfig: RouteConfigEntry<any>, ...args: any[]) {
         const { getCache, setCache } = useApiCache();
