@@ -34,7 +34,8 @@ export function cachedRoutes<T extends RouteConfig<T>>(routes: T): {[K in keyof 
         
         // Short circuit if the cache duration is 0s.
         if (cacheDuration === '0s') {
-            return routeConfig.handler(...args);
+            const apiResponse = await routeConfig.handler(...args);
+            return apiResponse;
         }
 
         // Use the default cache key if none is provided, otherwise

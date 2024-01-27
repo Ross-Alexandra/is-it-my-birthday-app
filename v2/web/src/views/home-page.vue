@@ -4,7 +4,7 @@
     />
     <date-box />
     <div class="gap"/>
-    <user-leaderboard />
+    <user-streak />
 
     <dialog ref="dialog" class="dialog">
         <suspense>
@@ -28,7 +28,7 @@ import { ref } from "vue";
 import BirthdayDialog from '@/pages/home/components/birthday-dialog.vue';
 import DateBox from '@/pages/home/components/date-box.vue';
 import HeroBanner from '@/pages/home/components/hero-banner.vue';
-import UserLeaderboard from '@/pages/home/components/leaderboard/user-leaderboard.vue';
+import UserStreak from '@/pages/home/components/streak/user-streak.vue';
 import spinningLoader from '@/shared/spinning-loader.vue';
 
 const dialog = ref<HTMLDialogElement | null>(null);

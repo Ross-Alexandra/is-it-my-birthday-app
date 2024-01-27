@@ -17,9 +17,9 @@ const routes: Array<RouteRecordRaw> = [
     path: '/logout',
     name: 'Logout',
     component: () => {/* Not a real route! */},
-    beforeEnter: () => {
+    beforeEnter: async () => {
         try {
-            AuthApi.logout();
+            await AuthApi.logout();
         } finally {
             // Do a hard redirect to the home page, so that any stored state
             // (in-memory caching for example) get cleared.

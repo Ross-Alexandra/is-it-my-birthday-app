@@ -16,14 +16,16 @@ export type RegisterData = {
     birth_month: number,
 };
 
+export type User = {
+    id: number,
+    name: string,
+    birthday: `${number}-${number}`
+};
+
 export type AuthResponses = {
     login: { error: string} | { success: true },
     logout: { success: true },
-    me: { error: string} | {
-        id: number,
-        name: string,
-        birthday: `${number}-${number}`
-    },
+    me: { error: string} | User,
     register: { error: string} | { success: true },
     verifyEmail: { error: string} | { success: true },
 }

@@ -22,7 +22,7 @@
             and enhancing your experience:
         </p>
         <ul>
-            <li>Displaying your name on the leaderboard, if relevant.</li>
+            <li>Displaying your name on the streak, if relevant.</li>
             <li>Tracking your birthday for personalized use.</li>
         </ul>
         <p>

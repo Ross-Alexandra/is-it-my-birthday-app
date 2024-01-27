@@ -53,7 +53,7 @@
                     to="/signup"
                     class="sign-up-message"
                 >
-                    Sign up to get on the leaderboard!
+                    Sign up to start counting your streaks!
                 </router-link>
 
                 <span>-or-</span>

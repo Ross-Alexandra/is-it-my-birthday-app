@@ -28,7 +28,7 @@
                 <h1>Join the Birthday Countdown!</h1>
                 <p class="signup-cta">
                     Get your party hats on standby! Sign up to track your birthday
-                    anticipation streak, earn your spot on the leaderboard, and enjoy a
+                    anticipation streak, earn your spot on the streak, and enjoy a
                     daily dose of fun. Because every day
                     is a step closer to your slice of the birthday cake!
                 </p>

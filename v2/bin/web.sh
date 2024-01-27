@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Description: Shortcut for calling functions in the leaderboard bin directory. 
+# Description: Shortcut for calling functions in the web bin directory. 
 # Usage: web <function_name> <function_arguments>
 function web() {
     if [ -z "$1" ]; then

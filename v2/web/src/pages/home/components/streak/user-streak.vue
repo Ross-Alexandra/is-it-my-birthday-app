@@ -1,19 +1,19 @@
 <template>
     <div class="display-hint" :data-visible="displayHint">
-        <div class="hint" @click="scrollToLeaderboards">
-            <p>Leaderboards</p>
+        <div class="hint" @click="scrollTostreaks">
+            <p>Top Streaks</p>
             <p class="bounce">↓</p>
         </div>
     </div>
 
-    <div class="leaderboard">
-        <leaderboard-header
+    <div class="streak">
+        <streak-header
             :current-tab="currentTab"
-            @click="scrollToLeaderboards"
+            @click="scrollTostreaks"
             @update:currentTab="updateCurrentTab"
         />
 
-        <leaderboard-table
+        <streak-table
             v-if="streakUsers !== null && streakUsers.length > 0"
             :users="streakUsers"
             :streak-type="currentTab"
@@ -34,8 +34,8 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 
-import LeaderboardHeader from './leaderboard-header.vue';
-import LeaderboardTable from './leaderboard-table.vue';
+import streakHeader from './streak-header.vue';
+import streakTable from './streak-table.vue';
 import SpinningLoader from '@/shared/spinning-loader.vue';
 import { StreaksApi } from '@/api/streaks';
 import type { Streak } from '@/api/streaks';
@@ -70,7 +70,7 @@ onMounted(async () => {
 
 const displayHint = ref(false);
 onMounted(() => {
-    const leaderboard = document.querySelector('.leaderboard');
+    const streak = document.querySelector('.streak');
     const observer = new IntersectionObserver((entries) => {
         displayHint.value = !entries[0].isIntersecting;
     }, {
@@ -79,14 +79,14 @@ onMounted(() => {
         threshold: 0,
     });
 
-    if (leaderboard) {
-        observer.observe(leaderboard);
+    if (streak) {
+        observer.observe(streak);
     }
 });
 
-function scrollToLeaderboards() {
-    const leaderboard = document.querySelector('.leaderboard');
-    leaderboard?.scrollIntoView({ behavior: 'smooth' });
+function scrollTostreaks() {
+    const streak = document.querySelector('.streak');
+    streak?.scrollIntoView({ behavior: 'smooth' });
 
     displayHint.value = false;
 }
@@ -168,7 +168,7 @@ function scrollToLeaderboards() {
         }
     }
 
-    .leaderboard {
+    .streak {
         display: flex;
         flex-direction: column;
         align-items: center;
