@@ -30,7 +30,7 @@ export type AuthResponses = {
     verifyEmail: { error: string} | { success: true },
 }
 
-export const AuthApi = createCachedApi({
+export const [AuthApi, DropAuthCache] = createCachedApi({
     login: {
         handler: (email: string) => _api.post<AuthResponses['login']>('/login', { email }),
         duration: '30s', // There's no reason a user should be logging in more than once every 30 seconds.
@@ -38,11 +38,10 @@ export const AuthApi = createCachedApi({
     logout: {
         handler: () => _api.get<AuthResponses['logout']>('/logout'),
         duration: '0s',
+        after: () => DropAuthCache.me(), // After logging out, the user's data will have changed.
     },
     me: {
-        handler: () => {
-            return _api.get<AuthResponses['me']>('/me');
-    },
+        handler: () => _api.get<AuthResponses['me']>('/me'),
         duration: '5m',
     },
     register: {
@@ -52,5 +51,6 @@ export const AuthApi = createCachedApi({
     verifyEmail: {
         handler: (token: string) => _api.get<AuthResponses['verifyEmail']>(`/verify?v=${token}`),
         duration: '0s',
+        after: () => DropAuthCache.me(), // After verifying an email, the user's data will have changed.
     },
 });

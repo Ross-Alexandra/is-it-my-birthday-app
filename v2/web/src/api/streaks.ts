@@ -23,7 +23,7 @@ export type StreaksResponse = {
     },
 }
 
-export const StreaksApi = createCachedApi({
+export const [StreaksApi, DropStreakCache] = createCachedApi({
     topStreaks: {
         handler: (streak_type: 'daily' | 'birthday') => _api.get<StreaksResponse['login']>(`/top_streaks?streak_type=${streak_type}`),
         duration: '1h',

@@ -1,6 +1,5 @@
 import { RouteRecordRaw, createRouter, createWebHistory } from 'vue-router';
 import { AuthApi } from '@/api/auth';
-import { useApiCache } from '@/api/useApiCache';
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -22,9 +21,6 @@ const routes: Array<RouteRecordRaw> = [
         try {
             await AuthApi.logout();
         } finally {
-            const { dropSubCache } = useApiCache();
-            dropSubCache('me:');
-
             window.location.href = '/home';
         }
     }

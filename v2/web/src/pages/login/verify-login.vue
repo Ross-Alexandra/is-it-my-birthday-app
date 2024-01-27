@@ -32,14 +32,11 @@ import PanelPage from '@/shared/panel-page.vue';
 import { ref, onMounted } from 'vue';
 import router from '@/router';
 import { AuthApi } from '@/api/auth';
-import { useApiCache } from '@/api/useApiCache';
 
 const verificationStatus = ref<'pending' | 'success' | 'error'>('pending');
 
 onMounted(async () => {
     try {
-        const { dropSubCache } = useApiCache();
-        dropSubCache('me:');
         const response = await AuthApi.verifyEmail(router.currentRoute.value.query.v as string);
         if ('error' in response.data) {
             throw new Error(response.data.error);
