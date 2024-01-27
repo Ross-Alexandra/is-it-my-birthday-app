@@ -12,7 +12,7 @@ export type RouteConfigEntry<Handler extends (...args: any[]) => any> = {
 // so that the call signature of the handler is preserved.
 export type RouteConfig<T> = {[K in keyof T]: RouteConfigEntry<T[K] extends Record<string, any> ? T[K]['handler'] : never>};
 
-export function cachedRoutes<T extends RouteConfig<T>>(routes: T): {[K in keyof T]: T[K] extends Record<string, any> ? T[K]['handler'] : never} {
+export function createCachedApi<T extends RouteConfig<T>>(routes: T): {[K in keyof T]: T[K] extends Record<string, any> ? T[K]['handler'] : never} {
     
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore

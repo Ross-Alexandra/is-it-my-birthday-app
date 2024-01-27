@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { cachedRoutes } from './cachedRoutes';
+import { createCachedApi } from './createCachedApi';
 
 const _api = axios.create({
     baseURL: process.env.VUE_APP_AUTH_URL,
@@ -30,7 +30,7 @@ export type AuthResponses = {
     verifyEmail: { error: string} | { success: true },
 }
 
-export const AuthApi = cachedRoutes({
+export const AuthApi = createCachedApi({
     login: {
         handler: (email: string) => _api.post<AuthResponses['login']>('/login', { email }),
         duration: '30s', // There's no reason a user should be logging in more than once every 30 seconds.
