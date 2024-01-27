@@ -42,6 +42,13 @@ export const useApiCache = defineStore('apiCache', {
         dropCache(key: string) {
             delete this.cache[key];
         },
+        dropSubCache(subKey: string) {
+            Object.keys(this.cache).forEach((key) => {
+                if (key.startsWith(subKey)) {
+                    this.dropCache(key);
+                }
+            });
+        }
     },
 });
 

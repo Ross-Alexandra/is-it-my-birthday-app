@@ -46,12 +46,12 @@ export function createCachedApi<T extends RouteConfig<T>>(routes: T): ApiHandler
 
         const cacheHit = getCache(cacheKey);
         if (cacheHit) {
-            return cacheHit
+            return await cacheHit
         }
 
-        const apiResponse = await routeConfig.handler(...args);
+        const apiResponse = routeConfig.handler(...args);
         setCache(cacheKey, apiResponse, cacheDuration);
 
-        return apiResponse;
+        return await apiResponse;
     }
 }

@@ -40,7 +40,9 @@ export const AuthApi = createCachedApi({
         duration: '0s',
     },
     me: {
-        handler: () => _api.get<AuthResponses['me']>('/me'),
+        handler: () => {
+            return _api.get<AuthResponses['me']>('/me');
+    },
         duration: '5m',
     },
     register: {
