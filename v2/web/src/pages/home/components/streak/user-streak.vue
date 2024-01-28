@@ -1,6 +1,6 @@
 <template>
     <div class="display-hint" :data-visible="displayHint">
-        <div class="hint" @click="scrollTostreaks">
+        <div class="hint" @click="scrollToStreaks">
             <p>Top Streaks</p>
             <p class="bounce">↓</p>
         </div>
@@ -9,7 +9,7 @@
     <div class="streak">
         <streak-header
             :current-tab="currentTab"
-            @click="scrollTostreaks"
+            @click="scrollToStreaks"
             @update:currentTab="updateCurrentTab"
         />
 
@@ -84,7 +84,7 @@ onMounted(() => {
     }
 });
 
-function scrollTostreaks() {
+function scrollToStreaks() {
     const streak = document.querySelector('.streak');
     streak?.scrollIntoView({ behavior: 'smooth' });
 
