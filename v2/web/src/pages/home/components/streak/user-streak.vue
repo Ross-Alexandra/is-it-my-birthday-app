@@ -1,90 +1,92 @@
 <template>
     <div class="display-hint" :data-visible="displayHint">
-        <div class="hint" @click="scrollToLeaderboards">
-            <p>Leaderboards</p>
+        <div class="hint" @click="scrollToStreaks">
+            <p>Top Streaks</p>
             <p class="bounce">↓</p>
         </div>
     </div>
 
-    <div class="leaderboard">
-        <leaderboard-header
+    <div class="streak">
+        <streak-header
             :current-tab="currentTab"
-            @click="scrollToLeaderboards"
-            @update:currentTab="nextTab => currentTab = nextTab"
+            @click="scrollToStreaks"
+            @update:currentTab="updateCurrentTab"
         />
 
-        <leaderboard-table 
-            :users="currentTab === 'birthday-streak' ? birthdayStreakUsers : streakUsers"
+        <streak-table
+            v-if="streakUsers !== null && streakUsers.length > 0"
+            :users="streakUsers"
             :streak-type="currentTab"
         />
+
+        <p
+            class="no-data-message" 
+            v-else-if="streakUsers !== null && streakUsers.length === 0"
+        >
+            No streaks yet! Get started by registering an account and
+            checking your birthday!
+        </p>
+
+        <spinning-loader v-else />
     </div>
 </template>
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 
-import LeaderboardHeader from './leaderboard-header.vue';
-import LeaderboardTable from './leaderboard-table.vue';
+import streakHeader from './streak-header.vue';
+import streakTable from './streak-table.vue';
+import SpinningLoader from '@/shared/spinning-loader.vue';
+import { StreaksApi } from '@/api/streaks';
+import type { Streak } from '@/api/streaks';
 
 const currentTab = ref<'birthday-streak' | 'streak'>('streak');
+const streakUsers = ref<Streak[] | null>(null);
 
-const birthdayStreakUsers = [{
-    id: 1,
-    name: 'Keirran',
-    rank: 1,
-    streak: 104,
-}, {
-    id: 2,
-    name: 'Callista',
-    rank: 2,
-    streak: 95,
-}, {
-    id: 15,
-    name: 'Ross',
-    streak: 77,
-},{
-    id: 23,
-    name: 'Cassie',
-    streak: 68,
-}, {
-    id: 4,
-    name: 'Michael',
-    streak: 50,
-}];
+function updateCurrentTab(nextTab: 'birthday-streak' | 'streak') {
+    currentTab.value = nextTab;
 
-const streakUsers = [{
-    id: 1,
-    name: 'Callista',
-    streak: 54,
-}, {
-    id: 2,
-    name: 'Keirran',
-    streak: 5,
-}, {
-    id: 15,
-    name: 'Ross',
-    streak: 3,
-}];
+    if (nextTab === 'streak') {
+        fetchStreaks('daily');
+    } else {
+        fetchStreaks('birthday');
+    }
+}
+
+async function fetchStreaks(streakType: 'daily' | 'birthday') {
+    const { data } = await StreaksApi.topStreaks(streakType);
+
+    if ('error' in data) {
+        streakUsers.value = [];
+        return;
+    } else {
+        streakUsers.value = data.streaks;
+    }
+}
+
+onMounted(async () => {
+    await fetchStreaks('daily');
+});
 
 const displayHint = ref(false);
 onMounted(() => {
-    const leaderboard = document.querySelector('.leaderboard');
+    const streak = document.querySelector('.streak');
     const observer = new IntersectionObserver((entries) => {
         displayHint.value = !entries[0].isIntersecting;
     }, {
         root: null,
-        rootMargin: '0px',
+        rootMargin: '-30px',
         threshold: 0,
     });
 
-    if (leaderboard) {
-        observer.observe(leaderboard);
+    if (streak) {
+        observer.observe(streak);
     }
 });
 
-function scrollToLeaderboards() {
-    const leaderboard = document.querySelector('.leaderboard');
-    leaderboard?.scrollIntoView({ behavior: 'smooth' });
+function scrollToStreaks() {
+    const streak = document.querySelector('.streak');
+    streak?.scrollIntoView({ behavior: 'smooth' });
 
     displayHint.value = false;
 }
@@ -95,6 +97,18 @@ function scrollToLeaderboards() {
 
 // Desktop Styling
 @media (min-width: ($tablet-breakpoint + 1px)) {
+    .no-data-message {
+        text-align: center;
+        margin: 0px auto 2rem auto;
+        padding: 1rem 1rem;
+        background-color: var(--primary-color);
+        border-radius: var(--border-radius);
+
+        font-size: 1.5rem;
+        font-weight: 700;
+        width: 100%;
+    }
+
     .display-hint {
         position: fixed;
         bottom: 0px;
@@ -107,7 +121,6 @@ function scrollToLeaderboards() {
         justify-content: center;
         opacity: 0;
         pointer-events: none;
-        cursor: none;
 
         @media (max-height: 875px) {
             left: unset;
@@ -154,7 +167,7 @@ function scrollToLeaderboards() {
         }
     }
 
-    .leaderboard {
+    .streak {
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -170,6 +183,17 @@ function scrollToLeaderboards() {
 
 // Mobile Styling
 @media (max-width: $tablet-breakpoint) {
+    .no-data-message {
+        text-align: center;
+        margin: 0px 5px 2rem 5px;
+        padding: 1rem 1rem;
+        background-color: var(--primary-color);
+        border-radius: var(--border-radius);
+
+        font-size: 1.5rem;
+        font-weight: 700;
+    }
+
     .display-hint {
         display: none;
     }

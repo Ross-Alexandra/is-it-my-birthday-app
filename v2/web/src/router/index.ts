@@ -16,13 +16,11 @@ const routes: Array<RouteRecordRaw> = [
   }, {
     path: '/logout',
     name: 'Logout',
-    component: () => {/* Not a real route! */},
-    beforeEnter: () => {
+    component: () => ({/* Not a real route! */}),
+    beforeEnter: async () => {
         try {
-            AuthApi.logout();
+            await AuthApi.logout();
         } finally {
-            // Do a hard redirect to the home page, so that any stored state
-            // (in-memory caching for example) get cleared.
             window.location.href = '/home';
         }
     }

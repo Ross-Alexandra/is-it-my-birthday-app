@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { cachedRoutes } from './cachedRoutes';
+import { createCachedApi } from './createCachedApi';
 
 const _api = axios.create({
     baseURL: process.env.VUE_APP_AUTH_URL,
@@ -16,19 +16,21 @@ export type RegisterData = {
     birth_month: number,
 };
 
+export type User = {
+    id: number,
+    name: string,
+    birthday: `${number}-${number}`
+};
+
 export type AuthResponses = {
     login: { error: string} | { success: true },
     logout: { success: true },
-    me: { error: string} | {
-        id: number,
-        name: string,
-        birthday: `${number}-${number}`
-    },
+    me: { error: string} | User,
     register: { error: string} | { success: true },
     verifyEmail: { error: string} | { success: true },
 }
 
-export const AuthApi = cachedRoutes({
+export const [AuthApi, DropAuthCache] = createCachedApi({
     login: {
         handler: (email: string) => _api.post<AuthResponses['login']>('/login', { email }),
         duration: '30s', // There's no reason a user should be logging in more than once every 30 seconds.
@@ -36,6 +38,7 @@ export const AuthApi = cachedRoutes({
     logout: {
         handler: () => _api.get<AuthResponses['logout']>('/logout'),
         duration: '0s',
+        after: () => DropAuthCache.me(), // After logging out, the user's data will have changed.
     },
     me: {
         handler: () => _api.get<AuthResponses['me']>('/me'),
@@ -44,9 +47,10 @@ export const AuthApi = cachedRoutes({
     register: {
         handler: (data: RegisterData) => _api.post<AuthResponses['register']>('/register', data),
         duration: '30s',
-    }, 
+    },
     verifyEmail: {
         handler: (token: string) => _api.get<AuthResponses['verifyEmail']>(`/verify?v=${token}`),
         duration: '0s',
+        after: () => DropAuthCache.me(), // After verifying an email, the user's data will have changed.
     },
 });

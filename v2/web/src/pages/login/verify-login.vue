@@ -23,7 +23,7 @@
         class="verify-panel"
     >
         <h1>Email Verified!</h1>
-        <p>You'll be redirected home in {{ countdown }}</p>
+        <p>You'll be redirected home momentarily</p>
     </panel-page>
 </template>
 
@@ -33,19 +33,7 @@ import { ref, onMounted } from 'vue';
 import router from '@/router';
 import { AuthApi } from '@/api/auth';
 
-const countdown = ref(3);
 const verificationStatus = ref<'pending' | 'success' | 'error'>('pending');
-
-function startCountdown() {
-    const interval = setInterval(() => {
-        countdown.value--;
-
-        if (countdown.value <= 0) {
-            clearInterval(interval);
-            router.push('/');
-        }
-    }, 1000);
-}
 
 onMounted(async () => {
     try {
@@ -55,7 +43,7 @@ onMounted(async () => {
         }
 
         verificationStatus.value = 'success';
-        startCountdown();
+        window.location.href = '/home';
     } catch {
         verificationStatus.value = 'error';
     }

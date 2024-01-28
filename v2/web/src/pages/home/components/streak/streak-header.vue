@@ -5,9 +5,9 @@
                 class="tab"
                 data-tab="streak"
                 @click="emit('update:currentTab', 'streak')"
-                title="Count of consecutive cakeless days"
+                title="Count of consecutive checked days"
             >
-                <h2>The almost birthday hero</h2>
+                <h2>The most birthday-curious</h2>
             </div>
             <div 
                 class="tab"

@@ -4,10 +4,13 @@ export async function isLoggedIn() {
     try {
         const me = await AuthApi.me();
 
-        if (!me.data.error) {
+        if ('error' in me.data) {
+            return null;
+        } else {
             return me.data;
         }
-    } catch {
+    } catch (err) {
+        console.error('error caught while fetching user: ', err);
         return null;
     }
 }

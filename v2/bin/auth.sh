@@ -8,7 +8,7 @@ function auth() {
         return
     fi
 
-    cmd_path=$IIMB_HOME/auth/bin/$1.sh
+    cmd_path=$IIMB_HOME/server/auth/bin/$1.sh
     shift;
 
     /bin/bash $cmd_path $@;

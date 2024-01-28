@@ -5,7 +5,8 @@
         </div>
 
         <div class="hero-content">
-            <h1>Every day could be a party!</h1>
+            <h1 v-if="user" class="user-welcome">Hi, {{ user.name }}!</h1>
+            <h1>Every day could be your party!</h1>
             <div class="buttons">
                 <button class="btn btn-primary" @click="emit('openDialog')">Is today your confetti moment?</button>
             </div>
@@ -14,7 +15,16 @@
 </template>
 
 <script setup lang="ts">
+import { isLoggedIn } from '@/utils/isLoggedIn';
+import { ref, onBeforeMount } from 'vue';
+import type { User } from '@/api/auth';
+
 const emit = defineEmits(['openDialog']);
+const user = ref<User | null>(null);
+
+onBeforeMount(async () => {
+    user.value = await isLoggedIn();
+});
 </script>
 
 <style lang="scss" scoped>
@@ -34,8 +44,15 @@ const emit = defineEmits(['openDialog']);
         max-width: 600px;
         font-weight: 800;
 
-        margin-bottom: 2rem;
-        
+        margin: 0px 0px 2rem 0px;
+    }
+
+    .hero .user-welcome {
+        font-size: 4rem;
+        max-width: 600px;
+        font-weight: 800;
+
+        margin: 0px;
     }
 
     .hero .buttons {

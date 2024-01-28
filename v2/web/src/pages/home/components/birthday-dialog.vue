@@ -1,5 +1,15 @@
 <template>
-    <div class="dialog-content">
+    <div 
+        v-if="apiFetching"
+        class="spinner-container"
+    >
+        <spinning-loader />
+    </div>
+
+    <div
+        v-else
+        class="dialog-content"
+    >
         <button
             class="dialog-close"
             @click="emit('close-dialog')"
@@ -53,7 +63,7 @@
                     to="/signup"
                     class="sign-up-message"
                 >
-                    Sign up to get on the leaderboard!
+                    Sign up to start counting your streaks!
                 </router-link>
 
                 <span>-or-</span>
@@ -70,16 +80,27 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { computed, ref, onBeforeMount } from 'vue';
 import { getBirthday } from '@/utils/getBirthday';
 import { random } from '@/utils/seededRandom';
 import PopupMessages from '@/copy/popup-messages.json';
 import BirthdayInput, { getMonthNumber } from '@/shared/birthday-input.vue';
 import { isLoggedIn } from '@/utils/isLoggedIn';
+import spinningLoader from '@/shared/spinning-loader.vue';
+import { StreaksApi } from '@/api/streaks';
 import type { Months } from '@/shared/birthday-input.vue';
+import type { Birthday } from '@/types/birthday';
+import type { User } from '@/api/auth';
 
-const userBirthday = await getBirthday();
-const userIsLoggedIn = await isLoggedIn();
+const userBirthday = ref<Birthday | null>(null);
+const userIsLoggedIn = ref<User | null>(null);
+const apiFetching = ref(true);
+
+onBeforeMount(async () => {
+    userBirthday.value = await getBirthday();
+    userIsLoggedIn.value = await isLoggedIn();
+    apiFetching.value = false;
+});
 
 const emit = defineEmits(['close-dialog']);
 
@@ -89,13 +110,17 @@ const dayInput = ref<HTMLInputElement | null>(null);
 const submitButton = ref<HTMLButtonElement | null>(null);
 
 const birthday = ref({ 
-    month: userBirthday?.month || 6,
-    day: userBirthday?.day || 15,
+    month: userBirthday.value?.month || 6,
+    day: userBirthday.value?.day || 15,
 });
 
-const birthdayIsSet = ref(userBirthday !== null);
+const birthdayIsSet = computed(() => userBirthday.value !== null);
 const todayIsBirthday = computed(() => {
     if (!birthdayIsSet.value) return false;
+
+    if (userIsLoggedIn.value) {
+        StreaksApi.checkIn()
+    }
 
     const today = new Date();
     return birthday.value?.month === today.getMonth() + 1 && birthday.value?.day === today.getDate();
@@ -131,7 +156,7 @@ function setDay(nextValue: string) {
 
 function submitBirthday() {
     if (birthday.value) {
-        birthdayIsSet.value = true;
+        userBirthday.value = birthday.value;
         localStorage.setItem('birthday', `${birthday.value.month}-${birthday.value.day}`);
         localStorage.setItem('last-submit', new Date().getTime().toString());
     }
@@ -148,6 +173,15 @@ function randomMessage(type: keyof typeof PopupMessages) {
 
 // Desktop Styling
 @media (min-width: ($tablet-breakpoint + 1px)) {
+    .spinner-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        height: 20vh;
+        width: 20vh;
+    }
+
     .dialog-content {
         display: flex;
         flex-direction: column;
@@ -218,6 +252,15 @@ function randomMessage(type: keyof typeof PopupMessages) {
 }
 
 @media (max-width: $tablet-breakpoint) {
+    .spinner-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        width: 100%;
+        height: 20vh;
+    }
+    
     .dialog-content {
         display: flex;
         flex-direction: column;

@@ -1,65 +1,17 @@
 from datetime import datetime, timedelta
-from fastapi import FastAPI, Request, Response
-from fastapi.middleware.cors import CORSMiddleware
+from fastapi import Request, Response
 import os
 
-from auth import create_access_token, verify_jwt
-from db import get_db_connection
-from send_email import send_email
+from shared.auth import create_access_token, OptimisticAuthMiddleware
+from shared.cors_app import CorsApp
+from shared.db import get_db_connection
 
-import random
-import string
+from utils.request_login import request_login
 
-def generate_unique_url():
-    return ''.join(random.choice(string.ascii_letters) for _ in range(30))
-
-def request_login(cnx, user_id, name, email):
-    cur = cnx.cursor()
-    
-    cur.execute('DELETE FROM login_attempts WHERE user_id = %s', (user_id,))
-    cnx.commit()
-    
-    email_secret = generate_unique_url()
-    cur.execute('INSERT INTO login_attempts (user_id, login_secret, attempted_at) VALUES (%s, %s, %s)', (user_id, email_secret, datetime.utcnow()))
-    cnx.commit()
-    
-    send_email(email, name, email_secret)
-
-app = FastAPI()
 environment = os.environ.get('IIMB_ENV', 'prod')
 
-origins = [
-    'https://isitmybirth.day',
-    'https://isitmybirth.day/',
-    'https://www.isitmybirth.day',  
-    'https://www.isitmybirth.day/',  
-]
-
-if environment == 'dev':
-    origins.append('http://localhost:8080')
-    
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
-    allow_methods=['GET', 'POST', 'OPTIONS', 'DELETE', 'PUT'],
-    allow_headers=['*'],
-)
-
-@app.middleware('http')
-def optimistic_auth(request: Request, call_next):
-    request.state.user_id = None
-    
-    auth = request.cookies.get('access_token', '')
-
-    if auth.startswith('Bearer'):
-        auth = auth.split(' ')[1]
-        payload = verify_jwt(auth)
-        
-        if payload is not None:
-            request.state.user_id = payload
-            
-    return call_next(request)
+app = CorsApp(environment)
+app.add_middleware(OptimisticAuthMiddleware)
 
 @app.post('/register')
 async def register(request: Request):

@@ -1,10 +1,10 @@
 <template>
-    <div class="leaderboard-table-row">
-        <div class="leaderboard-table-row__rank">
+    <div class="streak-table-row">
+        <div class="streak-table-row__rank">
             <h2>{{ rank }}</h2>
         </div>
 
-        <div class="leaderboard-table-row__user">
+        <div class="streak-table-row__user">
             <h3>{{ user.name }}</h3>
             <p>{{ streak }} {{ streakText }}</p>
         </div>
@@ -27,7 +27,7 @@ defineProps<{
 
 // Desktop Styling
 @media (min-width: ($tablet-breakpoint + 1px)) {
-    .leaderboard-table-row {
+    .streak-table-row {
         display: grid;
         grid-template-columns: 1fr 2fr 1fr;
         align-items: center;
@@ -70,7 +70,7 @@ defineProps<{
 }
 
 @media (max-width: $tablet-breakpoint) {
-    .leaderboard-table-row {
+    .streak-table-row {
         display: grid;
         
         grid-template-columns: 1fr 3fr;
