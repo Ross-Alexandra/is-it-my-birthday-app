@@ -25,7 +25,6 @@ def check_in(request: Request):
     cnx = get_db_connection()
     cur = cnx.cursor()
     
-    today = datetime.utcnow()
     local_today = datetime.utcnow() - timedelta(minutes=user_offset_minutes)
     
     birth_query = 'SELECT birth_day, birth_month FROM users WHERE id = %s'
@@ -48,8 +47,9 @@ def check_in(request: Request):
         return {'success': True}
     
     last_check_in, = res
+    local_last_check_in = last_check_in - timedelta(minutes=user_offset_minutes)
     
-    if (today.date() <= last_check_in.date()):
+    if (local_today.date() <= local_last_check_in.date()):
         return {'error': 'already_checked_in_today'}
     
     # If the user's last birthday check-in was exactly a year ago, and today is
@@ -60,14 +60,14 @@ def check_in(request: Request):
         last_birth_check_in, = cur.fetchone()
 
         local_birthday_check_in = last_birth_check_in - timedelta(minutes=user_offset_minutes)
-        if (local_birthday_check_in.date() == local_today.date().replace(year=today.year - 1)):
+        if (local_birthday_check_in.date() == local_today.date().replace(year=local_today.year - 1)):
             increment_streak(cnx, user_id, 'birthday')
         else:
             reset_streak(cnx, user_id, 'birthday')
     
     # Regardless of whether or not it's the user's birthday today, increment their
     # daily streak if they checked in yesterday. Otherwise, reset their streak.
-    if (today.date() == (last_check_in + timedelta(days=1)).date()):
+    if (local_today.date() == (local_last_check_in + timedelta(days=1)).date()):
         increment_streak(cnx, user_id, 'daily')
     else:    
         reset_streak(cnx, user_id, 'daily')
