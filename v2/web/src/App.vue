@@ -1,6 +1,6 @@
 <template>
     <nav :data-visible="navVisible">
-        <router-link to="/home">
+        <router-link class="logo" to="/home">
             <img src="/assets/icon/favicon-32x32.png" alt="logo" />
         </router-link>
 
@@ -50,12 +50,6 @@ nav {
     width: 100%;
     height: 60px;
 
-    // Extra calc to appease scss-lint
-    padding: 0px calc(max(15%, calc((100vw - 1920px) / 2)));
-    display: grid;
-    place-items: center;
-    grid-template-columns: 40px 1fr 40px;
-
     background-color: rgba(255, 255, 255, 0.4);
     color: #fff;
 
@@ -70,16 +64,30 @@ nav[data-visible='true'] {
     opacity: 1;
 }
 
-nav a {
+nav a.logo {
     width: 32px;
     height: 32px;
 }
 
 // Desktop Styling
 @media (min-width: ($tablet-breakpoint + 1px)) {
+    nav {
+        // Extra calc to appease scss-lint
+        padding: 0px calc(max(15%, calc((100vw - 1920px) / 2)));
+        display: grid;
+        place-items: center;
+        grid-template-columns: 40px 1fr 40px;
+    }
 }
 
 // Mobile Styling
 @media (max-width: $tablet-breakpoint) {
+    nav {
+        // Extra calc to appease scss-lint
+        padding: 0px 10px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
 }
 </style>
