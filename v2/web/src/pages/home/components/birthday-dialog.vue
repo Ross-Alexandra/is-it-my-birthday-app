@@ -97,14 +97,9 @@ const userIsLoggedIn = ref<User | null>(null);
 const apiFetching = ref(true);
 
 onBeforeMount(async () => {
-    console.log('on before mount...');
-
     userBirthday.value = await getBirthday();
     userIsLoggedIn.value = await isLoggedIn();
     apiFetching.value = false;
-
-    console.log(userIsLoggedIn.value);
-    console.log(userBirthday.value);
 });
 
 const emit = defineEmits(['close-dialog']);
@@ -124,10 +119,7 @@ const todayIsBirthday = computed(() => {
     if (!birthdayIsSet.value) return false;
 
     if (userIsLoggedIn.value) {
-        // eslint-disable-next-line
-        StreaksApi.checkIn().then(res => {
-            console.log(res);
-        });
+        StreaksApi.checkIn()
     }
 
     const today = new Date();

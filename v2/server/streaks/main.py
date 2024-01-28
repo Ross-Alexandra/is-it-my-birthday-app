@@ -18,7 +18,6 @@ app.add_middleware(OptimisticAuthMiddleware)
 def check_in(request: Request):
     user_id = request.state.user_id
     user_offset_minutes = int(request.headers.get('X-USER-TIMEZONE', 0))
-    print(user_offset_minutes)
     
     if (user_id is None):
         return {'error': 'not_logged_in'}

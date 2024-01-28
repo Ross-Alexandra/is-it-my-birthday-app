@@ -12,8 +12,8 @@ if verify_ssh iimb; then
 
     # Check if $1 is "debug", and if so then don't daemonize the server.
     if [ "$1" == "debug" ]; then
-        ssh iimb 'pkill gunicorn; source .setup-env; cd server/streaks; pip install -r requirements.txt; gunicorn main:app -k uvicorn.workers.UvicornWorker --bind 127.0.0.1:13002 --workers 2';
+        ssh iimb 'kill -9 `lsof -t -i:13002`; source .setup-env; cd server/streaks; pip install -r requirements.txt; gunicorn main:app -k uvicorn.workers.UvicornWorker --bind 127.0.0.1:13002 --workers 2';
     else    
-        ssh iimb 'pkill gunicorn; source .setup-env; cd server/streaks; pip install -r requirements.txt; gunicorn main:app -k uvicorn.workers.UvicornWorker --bind 127.0.0.1:13002 --workers 2 --daemon';
+        ssh iimb 'kill -9 `lsof -t -i:13002`; source .setup-env; cd server/streaks; pip install -r requirements.txt; gunicorn main:app -k uvicorn.workers.UvicornWorker --bind 127.0.0.1:13002 --workers 2 --daemon';
     fi
 fi
