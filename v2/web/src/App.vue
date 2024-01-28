@@ -83,7 +83,6 @@ nav a.logo {
 // Mobile Styling
 @media (max-width: $tablet-breakpoint) {
     nav {
-        // Extra calc to appease scss-lint
         padding: 0px 10px;
         display: flex;
         align-items: center;
