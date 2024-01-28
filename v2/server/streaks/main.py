@@ -17,6 +17,8 @@ app.add_middleware(OptimisticAuthMiddleware)
 @app.get('/check_in')
 def check_in(request: Request):
     user_id = request.state.user_id
+    user_offset_minutes = int(request.headers.get('X-USER-TIMEZONE', 0))
+    print(user_offset_minutes)
     
     if (user_id is None):
         return {'error': 'not_logged_in'}
@@ -25,12 +27,13 @@ def check_in(request: Request):
     cur = cnx.cursor()
     
     today = datetime.utcnow()
+    local_today = datetime.utcnow() - timedelta(minutes=user_offset_minutes)
     
     birth_query = 'SELECT birth_day, birth_month FROM users WHERE id = %s'
     cur.execute(birth_query, (user_id,))
     birth_day, birth_month = cur.fetchone()
     
-    is_birthday = birth_day == today.day and birth_month == today.month
+    is_birthday = birth_day == local_today.day and birth_month == local_today.month
     
     prev_streak_query = 'SELECT last_check_in FROM streaks WHERE user_id = %s ORDER BY streak_type ASC LIMIT 1'
     cur.execute(prev_streak_query, (user_id,))
@@ -56,8 +59,9 @@ def check_in(request: Request):
         last_birth_check_in_query = "SELECT last_check_in FROM streaks WHERE user_id = %s AND streak_type = 'birthday'"
         cur.execute(last_birth_check_in_query, (user_id,))
         last_birth_check_in, = cur.fetchone()
-        
-        if (last_birth_check_in.date() == today.date().replace(year=today.year - 1)):
+
+        local_birthday_check_in = last_birth_check_in - timedelta(minutes=user_offset_minutes)
+        if (local_birthday_check_in.date() == local_today.date().replace(year=today.year - 1)):
             increment_streak(cnx, user_id, 'birthday')
         else:
             reset_streak(cnx, user_id, 'birthday')

@@ -34,7 +34,11 @@ export const [StreaksApi, DropStreakCache] = createCachedApi({
         duration: '1h',
     },
     checkIn: {
-        handler: () => _api.get<StreaksResponse['checkIn']>('/check_in'),
+        handler: () => _api.get<StreaksResponse['checkIn']>('/check_in', {
+            headers: {
+                'X-USER-TIMEZONE': new Date().getTimezoneOffset(),
+            }
+        }),
         // Don't cache the response, because a user could check in moments before
         // their streak check-in lockout expires, and we want them to be able to
         // check in the moment their lockout expires.
