@@ -86,19 +86,25 @@ import { random } from '@/utils/seededRandom';
 import PopupMessages from '@/copy/popup-messages.json';
 import BirthdayInput, { getMonthNumber } from '@/shared/birthday-input.vue';
 import { isLoggedIn } from '@/utils/isLoggedIn';
-import type { Months } from '@/shared/birthday-input.vue';
 import spinningLoader from '@/shared/spinning-loader.vue';
-import { Birthday } from '@/types/birthday';
-import { User } from '@/api/auth';
+import { StreaksApi } from '@/api/streaks';
+import type { Months } from '@/shared/birthday-input.vue';
+import type { Birthday } from '@/types/birthday';
+import type { User } from '@/api/auth';
 
 const userBirthday = ref<Birthday | null>(null);
 const userIsLoggedIn = ref<User | null>(null);
 const apiFetching = ref(true);
 
 onBeforeMount(async () => {
+    console.log('on before mount...');
+
     userBirthday.value = await getBirthday();
     userIsLoggedIn.value = await isLoggedIn();
-    // apiFetching.value = false;
+    apiFetching.value = false;
+
+    console.log(userIsLoggedIn.value);
+    console.log(userBirthday.value);
 });
 
 const emit = defineEmits(['close-dialog']);
@@ -116,6 +122,13 @@ const birthday = ref({
 const birthdayIsSet = computed(() => userBirthday.value !== null);
 const todayIsBirthday = computed(() => {
     if (!birthdayIsSet.value) return false;
+
+    if (userIsLoggedIn.value) {
+        // eslint-disable-next-line
+        StreaksApi.checkIn().then(res => {
+            console.log(res);
+        });
+    }
 
     const today = new Date();
     return birthday.value?.month === today.getMonth() + 1 && birthday.value?.day === today.getDate();

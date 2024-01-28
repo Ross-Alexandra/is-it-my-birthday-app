@@ -5,7 +5,9 @@ import { parseBirthday } from './parseBirthday';
 export async function getBirthday() {
     const user = await isLoggedIn();
 
-    if (!user) {
+    if (user) {
+        return parseBirthday(user.birthday);
+    } else {
         const storedBirthday = localStorage.getItem('birthday') as BirthdayString;
         if (storedBirthday) {
             return parseBirthday(storedBirthday);
@@ -13,6 +15,4 @@ export async function getBirthday() {
             return null;
         }
     }
-
-    return null;
 }

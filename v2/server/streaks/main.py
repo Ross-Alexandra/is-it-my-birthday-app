@@ -24,39 +24,52 @@ def check_in(request: Request):
     cnx = get_db_connection()
     cur = cnx.cursor()
     
-    today = datetime.now().date()
+    today = datetime.utcnow()
     
     birth_query = 'SELECT birth_day, birth_month FROM users WHERE id = %s'
     cur.execute(birth_query, (user_id,))
     birth_day, birth_month = cur.fetchone()
     
-    streak_type = 'birthday' if (birth_day == today.day and birth_month == today.month) else 'daily'
+    is_birthday = birth_day == today.day and birth_month == today.month
     
-    prev_streak_query = 'SELECT current_streak, last_check_in FROM streaks WHERE user_id = %s AND streak_type = %s'
-    cur.execute(prev_streak_query, (user_id, streak_type))
+    prev_streak_query = 'SELECT last_check_in FROM streaks WHERE user_id = %s ORDER BY streak_type ASC LIMIT 1'
+    cur.execute(prev_streak_query, (user_id,))
     res = cur.fetchone()
     
     if (res is None):
         create_streak_query = 'INSERT INTO streaks (user_id, streak_type, current_streak, last_check_in) VALUES (%s, %s, 1, NOW())'
-        cur.execute(create_streak_query, (user_id, streak_type))
-        cnx.commit()
+        cur.execute(create_streak_query, (user_id, 'daily'))
+        if (is_birthday):
+            cur.execute(create_streak_query, (user_id, 'birthday'))
         
+        cnx.commit()
         return {'success': True}
     
-    current_streak, last_check_in = res
+    last_check_in, = res
     
-    if (today - current_streak < timedelta(days=1)):
+    if (today.date() <= last_check_in.date()):
         return {'error': 'already_checked_in_today'}
     
-    should_reset_streak = should_reset_streak(streak_type, last_check_in, today)
+    # If the user's last birthday check-in was exactly a year ago, and today is
+    # their birthday, then increment their streak. Otherwise, reset their streak
+    if (is_birthday):
+        last_birth_check_in_query = "SELECT last_check_in FROM streaks WHERE user_id = %s AND streak_type = 'birthday'"
+        cur.execute(last_birth_check_in_query, (user_id,))
+        last_birth_check_in, = cur.fetchone()
+        
+        if (last_birth_check_in.date() == today.date().replace(year=today.year - 1)):
+            increment_streak(cnx, user_id, 'birthday')
+        else:
+            reset_streak(cnx, user_id, 'birthday')
     
-    if (should_reset_streak):
-        increment_streak(cnx, user_id, streak_type, current_streak)
-    else:
-        reset_streak(cnx, user_id, streak_type)
+    # Regardless of whether or not it's the user's birthday today, increment their
+    # daily streak if they checked in yesterday. Otherwise, reset their streak.
+    if (today.date() == (last_check_in + timedelta(days=1)).date()):
+        increment_streak(cnx, user_id, 'daily')
+    else:    
+        reset_streak(cnx, user_id, 'daily')
         
     return {'success': True}
-
     
 @app.get('/top_streaks')
 def top_streaks(request: Request):

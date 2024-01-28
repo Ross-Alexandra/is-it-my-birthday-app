@@ -9,7 +9,7 @@ export type RouteConfigEntry<U> = {
     handler: Handler<U>,
     duration: CacheDuration,
     cacheKey?: string | ((...args: Parameters<Handler<U>>) => string),
-    after?: () => void,
+    after?: (response: ReturnType<Handler<U>>) => void,
 };
 
 // These really dense types basically just mean that we have an object
@@ -50,7 +50,7 @@ export function createCachedApi<T>(routes: T): [ApiHandlers<T>, CacheDroppers<T>
         if (cacheDuration === '0s') {
             const apiResponse = await routeConfig.handler(...args);
 
-            routeConfig?.after?.();
+            routeConfig?.after?.(apiResponse);
             return apiResponse;
         }
 
@@ -61,7 +61,7 @@ export function createCachedApi<T>(routes: T): [ApiHandlers<T>, CacheDroppers<T>
         if (cacheHitResponse) {
             const cacheHit = await cacheHitResponse;
 
-            routeConfig?.after?.();
+            routeConfig?.after?.(cacheHit);
             return cacheHit;
         }
 
@@ -70,7 +70,7 @@ export function createCachedApi<T>(routes: T): [ApiHandlers<T>, CacheDroppers<T>
 
         const response = await apiResponse;
 
-        routeConfig?.after?.();
+        routeConfig?.after?.(response);
         return response;
     }
 

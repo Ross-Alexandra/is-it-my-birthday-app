@@ -121,7 +121,6 @@ function scrollTostreaks() {
         justify-content: center;
         opacity: 0;
         pointer-events: none;
-        cursor: none;
 
         @media (max-height: 875px) {
             left: unset;

@@ -4,7 +4,7 @@ def reset_streak(cnx, user_id, streak_type):
     reset_streak_query = '''
         UPDATE streaks
         SET
-            current_streak = 1
+            current_streak = 1,
             last_check_in = NOW()
         WHERE
             user_id = %s AND 

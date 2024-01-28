@@ -47,7 +47,7 @@ export const [AuthApi, DropAuthCache] = createCachedApi({
     register: {
         handler: (data: RegisterData) => _api.post<AuthResponses['register']>('/register', data),
         duration: '30s',
-    }, 
+    },
     verifyEmail: {
         handler: (token: string) => _api.get<AuthResponses['verifyEmail']>(`/verify?v=${token}`),
         duration: '0s',
