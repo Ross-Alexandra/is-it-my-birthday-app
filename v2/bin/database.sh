@@ -13,3 +13,5 @@ function database() {
 
     /bin/bash $cmd_path $@;
 }
+
+alias db=database
