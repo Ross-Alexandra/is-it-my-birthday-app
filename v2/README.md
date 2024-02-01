@@ -5,6 +5,7 @@
 - Node v18.15.0+,
 - Docker & Docker compose (or an mysql database instance running locally)
 - Android Studio (for mobile app development)
+- JRE 17+ (for mobile app development)
 
 ### Installation
 > Note, the following commands are for a unix-like environment; if you are using
