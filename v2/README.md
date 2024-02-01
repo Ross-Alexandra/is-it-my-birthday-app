@@ -95,3 +95,24 @@ command:
 ```bash
 database seed;
 ```
+
+### Running the mobile application
+#### First time running
+The mobile application is built on top of the web stack using Ionic & Capacitor.
+This means that you will need to have the web app, and all of its dependencies
+installed & running before you can run the mobile app.
+
+To run the mobile app, you will need to have Android Studio installed, and you
+will need to have an android emulator created. To setup an emulator, you can
+run the following command:
+```bash
+mobile open;
+```
+
+This will open the android studio project, from there you can create a new
+emulator by opening the device manager, and creating a new virtual device.
+Once you have created a virtual device, you can run the following command to
+start the app on the emulator:
+```bash
+mobile dev;
+```
