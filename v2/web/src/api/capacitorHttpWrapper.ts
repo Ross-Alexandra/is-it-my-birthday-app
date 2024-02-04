@@ -8,7 +8,9 @@ export interface CapacitorResponse<T> extends HttpResponse {
 }
 
 function decodeCookie(cookie: string) {
+    console.log('cookie: ', cookie);
     const cookiePairs = cookie.split('=');
+    console.log('cookiePairs', cookiePairs);
 
     // Parse out the cookie name & value, keeping in mind that the value
     // will be wrapped in quotes
@@ -57,6 +59,17 @@ async function CapacitorStoreCookiesMiddleware<T>(response: CapacitorResponse<T>
 
     if (cookieValueStrings) {
         for (const cookieString of cookieValueStrings) {
+            // If the cookie string doesn't match the 
+            // format name=value, then skip it. This can be
+            // caused by the 'expires' attribute being set,
+            // which will cause the cookie to look like:
+            // name=value; expires=DOW, DD-MMM-YYYY HH:MM:SS GMT
+            // Since DOW is comma suffixed, it will be treated as
+            // a cookie string by the above split.
+            if (!/^(.*)=(.*)$/.test(cookieString)) {
+                continue;
+            }
+
             const [ cookieName, cookieValue ] = decodeCookie(cookieString);
 
             // Parse the existing cookies from the JSON stored in preferences

@@ -17,16 +17,7 @@
 </template>
 
 <script setup lang="ts">
-import { onBeforeMount } from 'vue';
-import { useRouter } from 'vue-router';
 import PanelPage from '@/shared/panel-page.vue';
-
-const router = useRouter();
-onBeforeMount(() => {
-    if (process.env.VUE_APP_IS_MOBILE) {
-        router.push({ name: 'Verify' });
-    }
-});
 </script>
 
 <style lang="scss" scoped>
