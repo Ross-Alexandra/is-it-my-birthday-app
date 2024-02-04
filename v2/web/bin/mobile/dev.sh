@@ -14,6 +14,7 @@ function kill_node() {
     export VUE_APP_AUTH_URL=
     export VUE_APP_STREAKS_URL=
     export VUE_APP_ENV=
+    export VUE_APP_IS_MOBILE=
 
     pkill node;
     pkill npm;
