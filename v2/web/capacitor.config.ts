@@ -7,7 +7,7 @@ if (!localIp) {
 
 const config: CapacitorConfig = {
   appId: 'iimb.rossAlexandra.app',
-  appName: 'is-it-my-birthday',
+  appName: 'Is It My Birthday',
   webDir: 'dist',
   server: {
     "url": `http://${localIp}:8080`,
