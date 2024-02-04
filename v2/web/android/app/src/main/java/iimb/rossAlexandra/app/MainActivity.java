@@ -1,4 +1,4 @@
-package io.ionic.starter;
+package iimb.rossAlexandra.app;
 
 import com.getcapacitor.BridgeActivity;
 

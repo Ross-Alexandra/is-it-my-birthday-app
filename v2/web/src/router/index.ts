@@ -14,6 +14,10 @@ const routes: Array<RouteRecordRaw> = [
     name: 'Login',
     component: () => import('@/views/login-page.vue'),
   }, {
+    path: '/verify',
+    name: 'Verify',
+    component: () => import('@/views/verify-page.vue'),
+  }, {
     path: '/logout',
     name: 'Logout',
     component: () => ({/* Not a real route! */}),

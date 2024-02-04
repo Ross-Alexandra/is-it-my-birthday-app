@@ -1,14 +1,12 @@
 {
   "name": "is-it-my-birthday",
   "version": "0.0.1",
+  "description": "Tells you if it's your birthday",
   "private": true,
   "scripts": {
     "dev": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "android:prepare": "npm run build && npx cap copy && npx cap sync",
-    "open:android": "npm run android:prepare && npx cap open android",
-    "dev:android": "npm run android:prepare && npx cap run android",
-    "build:android": "npm run android:prepare && ionic build",
+    "dev:android": "echo 'Please start the dev server before running this command'; npx cap copy; npx cap run android",
     "test:unit": "vue-cli-service test:unit",
     "test:e2e": "vue-cli-service test:e2e",
     "lint": "vue-cli-service lint"
@@ -19,12 +17,10 @@
     "@capacitor/core": "5.6.0",
     "@capacitor/haptics": "5.0.6",
     "@capacitor/keyboard": "5.0.7",
+    "@capacitor/preferences": "^5.0.7",
     "@capacitor/status-bar": "5.0.6",
-    "@ionic/vue": "^7.0.0",
-    "@ionic/vue-router": "^7.0.0",
     "axios": "^1.6.5",
     "core-js": "^3.6.5",
-    "ionicons": "^7.0.0",
     "moment": "^2.30.1",
     "pinia": "^2.1.7",
     "vue": "^3.2.47",
@@ -54,6 +50,5 @@
     "sass-loader": "^13.3.2",
     "ts-jest": "^27.0.7",
     "typescript": "^4.3.5"
-  },
-  "description": "An Ionic project"
+  }
 }

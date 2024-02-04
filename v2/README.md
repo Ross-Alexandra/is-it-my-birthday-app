@@ -99,7 +99,7 @@ database seed;
 
 ### Running the mobile application
 #### First time running
-The mobile application is built on top of the web stack using Ionic & Capacitor.
+The mobile application is built on top of the web stack using Capacitor.
 This means that you will need to have the web app, and all of its dependencies
 installed & running before you can run the mobile app.
 

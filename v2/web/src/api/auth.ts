@@ -1,12 +1,19 @@
 import axios from 'axios';
 import { createCachedApi } from './createCachedApi';
+import { CapacitorApi } from './capacitorHttpWrapper';
 
-const _api = axios.create({
+const isMobile = process.env.VUE_APP_IS_MOBILE === 'true';
+
+const webApi = axios.create({
     baseURL: process.env.VUE_APP_AUTH_URL,
     withCredentials: true,
     headers: {
         'Content-Type': 'application/json',
     }
+});
+
+const mobileApi = CapacitorApi(process.env.VUE_APP_AUTH_URL, {
+    'Content-Type': 'application/json',
 });
 
 export type RegisterData = {
@@ -32,24 +39,34 @@ export type AuthResponses = {
 
 export const [AuthApi, DropAuthCache] = createCachedApi({
     login: {
-        handler: (email: string) => _api.post<AuthResponses['login']>('/login', { email }),
+        handler: (email: string) => !isMobile
+            ? webApi.post<AuthResponses['login']>('/login', { email })
+            : mobileApi.post<AuthResponses['login']>('/login', { email }),
         duration: '30s', // There's no reason a user should be logging in more than once every 30 seconds.
     },
     logout: {
-        handler: () => _api.get<AuthResponses['logout']>('/logout'),
+        handler: () => !isMobile 
+            ? webApi.get<AuthResponses['logout']>('/logout')
+            : mobileApi.get<AuthResponses['logout']>('/logout'),
         duration: '0s',
         after: () => DropAuthCache.me(), // After logging out, the user's data will have changed.
     },
     me: {
-        handler: () => _api.get<AuthResponses['me']>('/me'),
+        handler: () => !isMobile 
+            ? webApi.get<AuthResponses['me']>('/me')
+            : mobileApi.get<AuthResponses['me']>('/me'),
         duration: '5m',
     },
     register: {
-        handler: (data: RegisterData) => _api.post<AuthResponses['register']>('/register', data),
+        handler: (data: RegisterData) => !isMobile
+            ? webApi.post<AuthResponses['register']>('/register', data)
+            : mobileApi.post<AuthResponses['register']>('/register', data),
         duration: '30s',
     },
     verifyEmail: {
-        handler: (token: string) => _api.get<AuthResponses['verifyEmail']>(`/verify?v=${token}`),
+        handler: (token: string) => !isMobile
+            ? webApi.get<AuthResponses['verifyEmail']>(`/verify?v=${token}`)
+            : mobileApi.get<AuthResponses['verifyEmail']>('/verify', { v: token}),
         duration: '0s',
         after: () => DropAuthCache.me(), // After verifying an email, the user's data will have changed.
     },

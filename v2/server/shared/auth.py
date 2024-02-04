@@ -32,7 +32,10 @@ class OptimisticAuthMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request: Request, call_next):
         request.state.user_id = None
         
-        auth = request.cookies.get('access_token', '')
+        cookie_auth = request.cookies.get('access_token', '')
+        header_auth = request.headers.get('Authorization', '')
+
+        auth = cookie_auth if cookie_auth else header_auth
 
         if auth.startswith('Bearer'):
             auth = auth.split(' ')[1]

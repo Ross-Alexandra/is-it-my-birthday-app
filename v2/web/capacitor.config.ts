@@ -1,11 +1,22 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
+const localIp = process.env.LOCAL_IP;
+if (!localIp) {
+  throw new Error('LOCAL_IP environment variable is not set');
+}
+
 const config: CapacitorConfig = {
-  appId: 'io.ionic.starter',
+  appId: 'iimb.rossAlexandra.app',
   appName: 'is-it-my-birthday',
   webDir: 'dist',
   server: {
-    cleartext: true,
+    "url": `http://${localIp}:8080`,
+    "cleartext": true,
+  },
+  plugins: {
+    CapacitorHttp: {
+      enabled: true,
+    }
   }
 };
 
