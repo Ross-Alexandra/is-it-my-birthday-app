@@ -102,10 +102,15 @@ function getUrl(baseUrl: string, url: string) {
 export function CapacitorApi(baseUrl: string, headers: Record<string, string> = {}) {
     return {
         request: <T>(options: HttpOptions) => capacitorRequest<T>(CapacitorHttp.request, options) as Promise<CapacitorResponse<T>>,
-        get: <T>(url: string, params?: Record<string, string>) => capacitorRequest<T>(CapacitorHttp.get, { url: getUrl(baseUrl, url), params, headers }) as Promise<CapacitorResponse<T>>,
-        post: <T>(url: string, body?: Record<string, unknown>) => capacitorRequest<T>(CapacitorHttp.post, { url: getUrl(baseUrl, url), data: body, headers }) as Promise<CapacitorResponse<T>>,
-        put: <T>(url: string, body?: Record<string, unknown>) => capacitorRequest<T>(CapacitorHttp.put, { url: getUrl(baseUrl, url), data: body, headers }) as Promise<CapacitorResponse<T>>,
-        patch: <T>(url: string, body?: Record<string, unknown>) => capacitorRequest<T>(CapacitorHttp.patch, { url: getUrl(baseUrl, url), data: body, headers }) as Promise<CapacitorResponse<T>>,
-        delete: <T>(url: string, body?: Record<string, unknown>) => capacitorRequest<T>(CapacitorHttp.delete, { url: getUrl(baseUrl, url), data: body, headers }) as Promise<CapacitorResponse<T>>,
+        get: <T>(url: string, params?: Record<string, string>, _headers?: Record<string, string>) => 
+            capacitorRequest<T>(CapacitorHttp.get, { url: getUrl(baseUrl, url), params, headers: { ...headers, ..._headers }}) as Promise<CapacitorResponse<T>>,
+        post: <T>(url: string, body?: Record<string, unknown>, _headers?: Record<string, string>) =>
+            capacitorRequest<T>(CapacitorHttp.post, { url: getUrl(baseUrl, url), data: body, headers: { ...headers, ..._headers }}) as Promise<CapacitorResponse<T>>,
+        put: <T>(url: string, body?: Record<string, unknown>, _headers?: Record<string, string>) =>
+            capacitorRequest<T>(CapacitorHttp.put, { url: getUrl(baseUrl, url), data: body, headers: { ...headers, ..._headers }}) as Promise<CapacitorResponse<T>>,
+        patch: <T>(url: string, body?: Record<string, unknown>, _headers?: Record<string, string>) =>
+            capacitorRequest<T>(CapacitorHttp.patch, { url: getUrl(baseUrl, url), data: body, headers: { ...headers, ..._headers } }) as Promise<CapacitorResponse<T>>,
+        delete: <T>(url: string, body?: Record<string, unknown>, _headers?: Record<string, string>) =>
+            capacitorRequest<T>(CapacitorHttp.delete, { url: getUrl(baseUrl, url), data: body, headers: { ...headers, ..._headers } }) as Promise<CapacitorResponse<T>>,
     };
 }

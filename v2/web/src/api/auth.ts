@@ -41,7 +41,7 @@ export const [AuthApi, DropAuthCache] = createCachedApi({
     login: {
         handler: (email: string) => !isMobile
             ? webApi.post<AuthResponses['login']>('/login', { email })
-            : mobileApi.post<AuthResponses['login']>('/login', { email }),
+            : mobileApi.post<AuthResponses['login']>('/login', { email }, { 'X-Platform': isMobile ? 'mobile' : 'web' }),
         duration: '30s', // There's no reason a user should be logging in more than once every 30 seconds.
     },
     logout: {
@@ -60,7 +60,7 @@ export const [AuthApi, DropAuthCache] = createCachedApi({
     register: {
         handler: (data: RegisterData) => !isMobile
             ? webApi.post<AuthResponses['register']>('/register', data)
-            : mobileApi.post<AuthResponses['register']>('/register', data),
+            : mobileApi.post<AuthResponses['register']>('/register', data, { 'X-Platform': isMobile ? 'mobile' : 'web' }),
         duration: '30s',
     },
     verifyEmail: {

@@ -65,7 +65,8 @@ async function verifyEmail(verificationCode: string) {
 
         verificationStatus.value = 'success';
         window.location.href = '/home';
-    } catch {
+    } catch (e) {
+        console.warn(e);
         verificationStatus.value = 'error';
     }
 }
