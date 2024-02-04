@@ -12,7 +12,7 @@ const webApi = axios.create({
     }
 });
 
-const mobileApi = CapacitorApi(process.env.VUE_APP_AUTH_URL, {
+const mobileApi = CapacitorApi(process.env.VUE_APP_STREAKS_URL, {
     'Content-Type': 'application/json',
 });
 
@@ -37,13 +37,13 @@ export type StreaksResponse = {
 
 export const [StreaksApi, DropStreakCache] = createCachedApi({
     topStreaks: {
-        handler: (streak_type: 'daily' | 'birthday') => isMobile
+        handler: (streak_type: 'daily' | 'birthday') => !isMobile
             ? webApi.get<StreaksResponse['topStreaks']>(`/top_streaks?streak_type=${streak_type}`)
             : mobileApi.get<StreaksResponse['topStreaks']>('/top_streaks', { streak_type }),
         duration: '1h',
     },
     checkIn: {
-        handler: () => isMobile 
+        handler: () => !isMobile 
             ? webApi.get<StreaksResponse['checkIn']>('/check_in', {
                 headers: {
                     'X-USER-TIMEZONE': new Date().getTimezoneOffset(),
