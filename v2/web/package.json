@@ -7,7 +7,7 @@
     "dev": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "dev:android": "echo 'Please start the dev server before running this command'; npx cap copy; npx cap run android",
-    "build:android": "npx cap build android --prod >> /dev/null & npx cap open android >> /dev/null & echo 'Please use android studio to build the apk'",
+    "build:android": "ionic cap build android --prod",
     "test:unit": "vue-cli-service test:unit",
     "test:e2e": "vue-cli-service test:e2e",
     "lint": "vue-cli-service lint"

@@ -8,9 +8,7 @@ export interface CapacitorResponse<T> extends HttpResponse {
 }
 
 function decodeCookie(cookie: string) {
-    console.log('cookie: ', cookie);
     const cookiePairs = cookie.split('=');
-    console.log('cookiePairs', cookiePairs);
 
     // Parse out the cookie name & value, keeping in mind that the value
     // will be wrapped in quotes
@@ -33,7 +31,6 @@ async function CapacitorSetCookiesMiddleware(request: HttpOptions) {
     const cookies = await Preferences.get({ key: 'cookies' });
 
     if (cookies.value) {
-        console.log('setting the cookies', cookies.value);
         const cookiesObject = JSON.parse(cookies.value);
         const cookieString = Object.entries(cookiesObject)
             .map(([cookieName, cookieValue]) => encodeCookie(cookieName, cookieValue))
