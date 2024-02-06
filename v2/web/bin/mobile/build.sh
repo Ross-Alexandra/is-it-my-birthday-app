@@ -13,3 +13,4 @@ export VUE_APP_AUTH_URL=;
 export VUE_APP_STREAKS_URL=;
 export VUE_APP_ENV=;
 export VUE_APP_IS_MOBILE=;
+export LOCAL_IP=;
