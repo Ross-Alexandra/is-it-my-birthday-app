@@ -46,7 +46,7 @@ export const [AuthApi, DropAuthCache] = createCachedApi({
         duration: '30s', // There's no reason a user should be logging in more than once every 30 seconds.
     },
     logout: {
-        handler: () => _api.get<AuthResponses['logout']>('/logout'), 
+        handler: () => _api.get<AuthResponses['logout']>('/logout'),
         duration: '0s',
         after: () => DropAuthCache.me(), // After logging out, the user's data will have changed.
     },
