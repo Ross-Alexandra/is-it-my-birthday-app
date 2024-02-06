@@ -5,12 +5,14 @@ if (!localIp) {
   throw new Error('LOCAL_IP environment variable is not set');
 }
 
-const devOptions = {
-  server: {
-    "url": `http://${localIp}:8080`,
-    "cleartext": true,
-  }
-}
+const devOptions = process.env.NODE_ENV === 'development'
+    ? {
+        server: {
+            "url": `http://${localIp}:8080`,
+            "cleartext": true,
+        }
+    }
+    : {};
 
 const config: CapacitorConfig = {
   appId: 'iimb.rossAlexandra.app',
@@ -21,7 +23,7 @@ const config: CapacitorConfig = {
       enabled: true,
     }
   },
-  ...(process.env.NODE_ENV === 'development' ? devOptions : {}),
+  ...devOptions,
 };
 
 export default config;
