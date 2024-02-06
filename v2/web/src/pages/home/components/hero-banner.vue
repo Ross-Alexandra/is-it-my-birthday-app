@@ -95,6 +95,13 @@ onBeforeMount(async () => {
         height: 35svh;
     }
 
+    .hero .user-welcome {
+        max-width: 600px;
+        font-weight: 800;
+
+        margin: 0px;
+    }
+
     .hero-content {
         display: flex;
         flex-direction: column;
@@ -108,7 +115,7 @@ onBeforeMount(async () => {
         font-weight: 800;
 
         text-align: center;
-        margin-bottom: 2rem;
+        margin: 0px 0px 2rem 0px;
     }
 
     .hero-content button {

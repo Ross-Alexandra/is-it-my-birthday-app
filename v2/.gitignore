@@ -22,7 +22,6 @@ web/node_modules/*
 web/package-lock.json
 
 /.idea
-/.ionic
 /.sass-cache
 /.sourcemaps
 /.versions

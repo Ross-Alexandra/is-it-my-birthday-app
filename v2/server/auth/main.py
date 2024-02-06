@@ -20,6 +20,7 @@ async def register(request: Request):
     name = data.get('name', None)
     birth_day = data.get('birth_day', None)
     birth_month = data.get('birth_month', None)
+    platform = request.headers.get('X-Platform', 'desktop')
     
     if email is None:
         return {'error': 'email_not_provided'}
@@ -45,13 +46,14 @@ async def register(request: Request):
     cnx.commit()
     user_id = cur.lastrowid
     
-    request_login(cnx, user_id, name, email)
+    request_login(cnx, user_id, name, email, platform == 'mobile')
     return {'success': True}
 
 @app.post('/login')
 async def login(request: Request):
     data = await request.json()
     email = data.get('email', None)
+    platform = request.headers.get('X-Platform', 'desktop')
     
     if email is None:
         return {'error': 'email_not_provided'}
@@ -66,7 +68,7 @@ async def login(request: Request):
     
     user_id, name = res
 
-    request_login(cnx, user_id, name, email)
+    request_login(cnx, user_id, name, email, platform == 'mobile')
     return {'success': True}
 
 @app.get('/verify')

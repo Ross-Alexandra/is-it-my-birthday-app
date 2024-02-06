@@ -85,12 +85,15 @@ const streakMessages = computed(() => {
         align-items: center;
         justify-content: center;
         width: 90%;
-        row-gap: 10px;
 
         margin: 0px auto 30px auto;
 
         --rank-color: var(--on-primary-color);
         --background-color: var(--primary-color);
+    }
+
+    .streak-table > div {
+        margin-bottom: 10px;
     }
 
     .streak-table > *:nth-child(1),

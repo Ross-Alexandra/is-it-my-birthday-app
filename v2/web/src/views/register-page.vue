@@ -10,6 +10,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 import RegisterForm from '@/pages/register/register-form.vue';
 import registerWaitingEmail from '@/pages/register/register-waiting-email.vue';
 import { AuthApi } from '@/api/auth';
@@ -18,6 +19,7 @@ import type { RegisterData } from '@/api/auth';
 const registerSuccess = ref(false);
 const registerError = ref<string | null>(null);
 
+const router = useRouter();
 const signup = async (data: RegisterData) => {
     try {
         const response = await AuthApi.register(data);
@@ -35,7 +37,11 @@ const signup = async (data: RegisterData) => {
             return;
         }
 
-        registerSuccess.value = true;        
+        if (process.env.VUE_APP_IS_MOBILE) {
+            router.push({ name: 'Verify' });
+        } else {
+            registerSuccess.value = true;        
+        }
     } catch (error) {
         registerError.value = 'Something went wrong. Please try again later.'
     }

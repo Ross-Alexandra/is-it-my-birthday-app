@@ -1,13 +1,23 @@
 import axios from 'axios';
 import { createCachedApi } from './createCachedApi';
+import { CapacitorApi } from './capacitorHttpWrapper';
+import type { Api } from './types';
 
-const _api = axios.create({
-    baseURL: process.env.VUE_APP_STREAKS_URL,
-    withCredentials: true,
-    headers: {
+const isMobile = process.env.VUE_APP_IS_MOBILE === 'true';
+
+const _api = isMobile
+    ? CapacitorApi(process.env.VUE_APP_STREAKS_URL, {
         'Content-Type': 'application/json',
-    }
-});
+        'X-Platform': 'mobile',
+    }) as unknown as Api
+    : axios.create({
+        baseURL: process.env.VUE_APP_STREAKS_URL,
+        withCredentials: true,
+        headers: {
+            'Content-Type': 'application/json',
+            'X-Platform': 'web',
+        }
+    }) as Api;
 
 export type Streak = {
     id: number;
@@ -36,7 +46,7 @@ export const [StreaksApi, DropStreakCache] = createCachedApi({
     checkIn: {
         handler: () => _api.get<StreaksResponse['checkIn']>('/check_in', {
             headers: {
-                'X-USER-TIMEZONE': new Date().getTimezoneOffset(),
+                'X-USER-TIMEZONE': `${new Date().getTimezoneOffset()}`,
             }
         }),
         // Don't cache the response, because a user could check in moments before

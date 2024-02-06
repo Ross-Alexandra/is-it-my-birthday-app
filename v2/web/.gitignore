@@ -1,1 +1,3 @@
 dist/
+android/app/release/
+resources/android/**/*

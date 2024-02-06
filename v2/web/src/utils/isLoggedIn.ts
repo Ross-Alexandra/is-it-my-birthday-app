@@ -10,7 +10,6 @@ export async function isLoggedIn() {
             return me.data;
         }
     } catch (err) {
-        console.error('error caught while fetching user: ', err);
         return null;
     }
 }

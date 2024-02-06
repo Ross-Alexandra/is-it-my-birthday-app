@@ -73,7 +73,7 @@ nav a.logo {
 @media (min-width: ($tablet-breakpoint + 1px)) {
     nav {
         // Extra calc to appease scss-lint
-        padding: 0px calc(max(15%, calc((100vw - 1920px) / 2)));
+        padding: 0px calc(max(15%, calc(calc(100vw - 1920px) / 2)) + 0px);
         display: grid;
         place-items: center;
         grid-template-columns: 40px 1fr 40px;

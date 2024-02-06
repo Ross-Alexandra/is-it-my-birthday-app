@@ -9,4 +9,9 @@ if verify_ssh iimb; then
 
     (cd $IIMB_HOME/web && npm run build);
     scp -r $IIMB_HOME/web/dist iimb:~/www/isitmybirth.day;
+
+    # Unset the environment variables for the web app.
+    export VUE_APP_AUTH_URL=
+    export VUE_APP_STREAKS_URL=
+    export VUE_APP_ENV=
 fi

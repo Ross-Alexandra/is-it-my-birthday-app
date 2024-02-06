@@ -1,13 +1,23 @@
 import axios from 'axios';
 import { createCachedApi } from './createCachedApi';
+import { CapacitorApi } from './capacitorHttpWrapper';
+import type { Api } from './types';
 
-const _api = axios.create({
-    baseURL: process.env.VUE_APP_AUTH_URL,
-    withCredentials: true,
-    headers: {
+const isMobile = process.env.VUE_APP_IS_MOBILE === 'true';
+
+const _api = isMobile
+    ? CapacitorApi(process.env.VUE_APP_AUTH_URL, {
         'Content-Type': 'application/json',
-    }
-});
+        'X-Platform': 'mobile',
+    }) as unknown as Api
+    : axios.create({
+        baseURL: process.env.VUE_APP_AUTH_URL,
+        withCredentials: true,
+        headers: {
+            'Content-Type': 'application/json',
+            'X-Platform': 'web',
+        }
+    }) as Api;
 
 export type RegisterData = {
     name: string,

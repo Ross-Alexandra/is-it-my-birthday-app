@@ -1,5 +1,24 @@
 <template>
     <panel-page
+        v-if="verificationStatus === 'querying'" 
+        class="verify-panel"
+    >
+        <h1>Please enter the code we emailed you!</h1>
+        <input
+            type="text"
+            name="code"
+            placeholder="Verification Code"
+            v-model="code"
+        />
+        <button
+            class="btn btn-primary"
+            @click="() => verifyEmail(code)"    
+        >
+            Start My Streak!
+        </button>
+    </panel-page>
+
+    <panel-page
         v-if="verificationStatus === 'pending'" 
         class="verify-panel"
     >
@@ -33,21 +52,27 @@ import { ref, onMounted } from 'vue';
 import router from '@/router';
 import { AuthApi } from '@/api/auth';
 
-const verificationStatus = ref<'pending' | 'success' | 'error'>('pending');
+const currentRoute = router.currentRoute.value.name;
+const verificationStatus = ref<'querying' | 'pending' | 'success' | 'error'>(currentRoute === 'Verify' ? 'querying' : 'pending');
 
-onMounted(async () => {
+const code = ref('');
+async function verifyEmail(verificationCode: string) {
     try {
-        const response = await AuthApi.verifyEmail(router.currentRoute.value.query.v as string);
+        const response = await AuthApi.verifyEmail(verificationCode);
         if ('error' in response.data) {
             throw new Error(response.data.error);
         }
 
         verificationStatus.value = 'success';
         window.location.href = '/home';
-    } catch {
+    } catch (e) {
         verificationStatus.value = 'error';
     }
-});
+}
+
+if (currentRoute !== 'Verify') {
+    onMounted(() => verifyEmail(router.currentRoute.value.query.v as string));
+}
 </script>
 
 <style lang='scss' scoped>
@@ -61,6 +86,10 @@ onMounted(async () => {
 
     p {
         margin: 0px;
+    }
+
+    button {
+        margin-top: 15px;
     }
 }
 </style>
