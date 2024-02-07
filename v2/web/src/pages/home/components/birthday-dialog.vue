@@ -87,7 +87,6 @@ import PopupMessages from '@/copy/popup-messages.json';
 import BirthdayInput, { getMonthNumber } from '@/shared/birthday-input.vue';
 import { isLoggedIn } from '@/utils/isLoggedIn';
 import spinningLoader from '@/shared/spinning-loader.vue';
-import { StreaksApi } from '@/api/streaks';
 import type { Months } from '@/shared/birthday-input.vue';
 import type { Birthday } from '@/types/birthday';
 import type { User } from '@/api/auth';
@@ -117,10 +116,6 @@ const birthday = ref({
 const birthdayIsSet = computed(() => userBirthday.value !== null);
 const todayIsBirthday = computed(() => {
     if (!birthdayIsSet.value) return false;
-
-    if (userIsLoggedIn.value) {
-        StreaksApi.checkIn()
-    }
 
     const today = new Date();
     return birthday.value?.month === today.getMonth() + 1 && birthday.value?.day === today.getDate();

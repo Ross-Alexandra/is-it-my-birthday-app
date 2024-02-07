@@ -54,13 +54,18 @@ function updateCurrentTab(nextTab: 'birthday-streak' | 'streak') {
 }
 
 async function fetchStreaks(streakType: 'daily' | 'birthday') {
-    const { data } = await StreaksApi.topStreaks(streakType);
+    const { data, subscribe } = await StreaksApi.topStreaks(streakType);
 
-    if ('error' in data) {
-        streakUsers.value = [];
-        return;
-    } else {
-        streakUsers.value = data.streaks;
+    subscribe(response => updateStreakUsers(response.data));
+    updateStreakUsers(data);
+
+    function updateStreakUsers(data: Awaited<ReturnType<typeof StreaksApi.topStreaks>>['data']) {
+        if ('error' in data) {
+            streakUsers.value = [];
+            return;
+        } else {
+            streakUsers.value = data.streaks;
+        }
     }
 }
 
