@@ -2,7 +2,7 @@ import { useApiCache } from './useApiCache';
 import type { CacheDuration } from './useApiCache';
 import { ReactiveApiEmitter } from './reactiveEmitter';
 
-export type Handler<U> = U extends Record<string, any> ? U['handler']: never;
+export type Handler<U> = U extends Record<string, any> ? U['handler'] : never;
 export type ApiHandlers<T> = {[K in keyof T]: Handler<T[K]>};
 export type CacheDroppers<T> = {[K in keyof T]: () => void};
 
