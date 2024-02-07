@@ -8,7 +8,7 @@
             <h1 v-if="user" class="user-welcome">Hi, {{ user.name }}!</h1>
             <h1>Every day could be your party!</h1>
             <div class="buttons">
-                <button class="btn btn-primary" @click="emit('openDialog')">Is today your confetti moment?</button>
+                <button class="btn btn-primary" @click="openDialog">Is today your confetti moment?</button>
             </div>
         </div>
     </div>
@@ -18,6 +18,7 @@
 import { isLoggedIn } from '@/utils/isLoggedIn';
 import { ref, onBeforeMount } from 'vue';
 import type { User } from '@/api/auth';
+import { StreaksApi } from '@/api/streaks';
 
 const emit = defineEmits(['openDialog']);
 const user = ref<User | null>(null);
@@ -25,6 +26,17 @@ const user = ref<User | null>(null);
 onBeforeMount(async () => {
     user.value = await isLoggedIn();
 });
+
+function openDialog() {
+    emit('openDialog');
+    checkIn();
+}
+
+async function checkIn() {
+    if (await isLoggedIn()) {
+        await StreaksApi.checkIn();
+    }
+}
 </script>
 
 <style lang="scss" scoped>

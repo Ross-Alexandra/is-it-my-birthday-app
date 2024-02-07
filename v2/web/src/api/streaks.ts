@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { createCachedApi } from './createCachedApi';
 import { CapacitorApi } from './capacitorHttpWrapper';
-import type { Api } from './types';
+import type { Api, ApiResponse } from './types';
 
 const isMobile = process.env.VUE_APP_IS_MOBILE === 'true';
 
@@ -53,5 +53,15 @@ export const [StreaksApi, DropStreakCache] = createCachedApi({
         // their streak check-in lockout expires, and we want them to be able to
         // check in the moment their lockout expires.
         duration: '0s',
+        after: (response: Awaited<ApiResponse<StreaksResponse['checkIn']>>) => {
+            if (!('error' in response.data)) {
+
+                // If a user successfully checks in, clear the cache & refetch
+                // so that the subscribing leaderboard will have new data.
+                DropStreakCache.topStreaks();
+                StreaksApi.topStreaks('daily');
+                StreaksApi.topStreaks('birthday');
+            }
+        } 
     }
 });
