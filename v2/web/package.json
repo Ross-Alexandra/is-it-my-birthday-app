@@ -1,13 +1,13 @@
 {
   "name": "is-it-my-birthday",
-  "version": "0.0.1",
+  "version": "2.0.0",
   "description": "Tells you if it's your birthday",
   "private": true,
   "scripts": {
     "dev": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "dev:android": "echo 'Please start the dev server before running this command'; npx cap copy; npx cap run android",
-    "build:android": "ionic cap build android --prod",
+    "dev:android": "echo 'Please start the dev server before running this command'; npx cap copy; ionic capacitor run android --livereload-url=http://10.0.2.2:8080",
+    "build:android": "ionic capacitor build android --prod",
     "test:unit": "vue-cli-service test:unit",
     "test:e2e": "vue-cli-service test:e2e",
     "lint": "vue-cli-service lint"

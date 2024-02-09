@@ -2,6 +2,6 @@
 <resources>
     <string name="app_name">Is It My Birthday</string>
     <string name="title_activity_main">Is It My Birthday</string>
-    <string name="package_name">iimb.rossAlexandra.app</string>
-    <string name="custom_url_scheme">iimb.rossAlexandra.app</string>
+    <string name="package_name">com.isitmybirthday</string>
+    <string name="custom_url_scheme">com.isitmybirthday</string>
 </resources>

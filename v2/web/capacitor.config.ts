@@ -15,7 +15,7 @@ const devOptions = process.env.NODE_ENV === 'development'
     : {};
 
 const config: CapacitorConfig = {
-  appId: 'iimb.rossAlexandra.app',
+  appId: 'com.isitmybirthday',
   appName: 'Is It My Birthday',
   webDir: 'dist',
   plugins: {

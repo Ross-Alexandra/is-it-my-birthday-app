@@ -1,4 +1,4 @@
-package iimb.rossAlexandra.app;
+package com.isitmybirthday;
 
 import com.getcapacitor.BridgeActivity;
 
