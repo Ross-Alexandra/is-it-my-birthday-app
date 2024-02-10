@@ -118,7 +118,7 @@ const todayIsBirthday = computed(() => {
     if (!birthdayIsSet.value) return false;
 
     const today = new Date();
-    return birthday.value?.month === today.getMonth() + 1 && birthday.value?.day === today.getDate();
+    return userBirthday.value?.month === today.getMonth() + 1 && userBirthday.value?.day === today.getDate();
 });
 
 function setMonth(nextValue: Months) {

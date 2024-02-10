@@ -14,14 +14,14 @@
         />
 
         <streak-table
-            v-if="streakUsers !== null && streakUsers.length > 0"
-            :users="streakUsers"
+            v-if="currentStreaks !== null && currentStreaks.length > 0"
+            :users="currentStreaks"
             :streak-type="currentTab"
         />
 
         <p
             class="no-data-message" 
-            v-else-if="streakUsers !== null && streakUsers.length === 0"
+            v-else-if="currentStreaks !== null && currentStreaks.length === 0"
         >
             No streaks yet! Get started by registering an account and
             checking your birthday!
@@ -41,36 +41,62 @@ import { StreaksApi } from '@/api/streaks';
 import type { Streak } from '@/api/streaks';
 
 const currentTab = ref<'birthday-streak' | 'streak'>('streak');
-const streakUsers = ref<Streak[] | null>(null);
+const dailyStreaks = ref<Streak[] | null>(null);
+const birthdayStreaks = ref<Streak[] | null>(null);
+const currentStreaks = ref<Streak[] | null>(null);
 
-function updateCurrentTab(nextTab: 'birthday-streak' | 'streak') {
+async function updateCurrentTab(nextTab: 'birthday-streak' | 'streak') {
     currentTab.value = nextTab;
 
     if (nextTab === 'streak') {
-        fetchStreaks('daily');
+        await fetchDailyStreaks();
+        currentStreaks.value = dailyStreaks.value;
     } else {
-        fetchStreaks('birthday');
+        await fetchBirthdayStreaks();
+        currentStreaks.value = birthdayStreaks.value;
     }
 }
 
-async function fetchStreaks(streakType: 'daily' | 'birthday') {
-    const { data, subscribe } = await StreaksApi.topStreaks(streakType);
+async function fetchDailyStreaks() {
+    const { data, subscribe } = await StreaksApi.topStreaks('daily');
 
     subscribe(response => updateStreakUsers(response.data));
     updateStreakUsers(data);
 
     function updateStreakUsers(data: Awaited<ReturnType<typeof StreaksApi.topStreaks>>['data']) {
         if ('error' in data) {
-            streakUsers.value = [];
-            return;
+            dailyStreaks.value = [];
         } else {
-            streakUsers.value = data.streaks;
+            dailyStreaks.value = data.streaks;
+        }
+
+        if (currentTab.value === 'streak') {
+            currentStreaks.value = dailyStreaks.value;
         }
     }
 }
 
-onMounted(async () => {
-    await fetchStreaks('daily');
+async function fetchBirthdayStreaks() {
+    const { data, subscribe } = await StreaksApi.topStreaks('birthday');
+
+    subscribe(response => updateStreakUsers(response.data));
+    updateStreakUsers(data);
+
+    function updateStreakUsers(data: Awaited<ReturnType<typeof StreaksApi.topStreaks>>['data']) {
+        if ('error' in data) {
+            birthdayStreaks.value = [];
+        } else {
+            birthdayStreaks.value = data.streaks;
+        }
+
+        if (currentTab.value === 'birthday-streak') {
+            currentStreaks.value = birthdayStreaks.value;
+        }
+    }
+}
+
+onMounted(() => {
+    updateCurrentTab('streak');
 });
 
 const displayHint = ref(false);
