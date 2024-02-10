@@ -17,8 +17,11 @@ $RECYCLE.BIN/
 log.txt
 npm-debug.log*
 
+web/dist/*
+web/node_modules/*
+web/package-lock.json
+
 /.idea
-/.ionic
 /.sass-cache
 /.sourcemaps
 /.versions
@@ -30,3 +33,5 @@ npm-debug.log*
 /platforms
 /plugins
 /www
+
+__pycache__/

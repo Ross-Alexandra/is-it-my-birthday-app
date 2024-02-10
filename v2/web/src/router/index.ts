@@ -1,16 +1,44 @@
-import { createRouter, createWebHistory } from '@ionic/vue-router';
-import { RouteRecordRaw } from 'vue-router';
-import HomePage from '../views/HomePage.vue'
+import { RouteRecordRaw, createRouter, createWebHistory } from 'vue-router';
+import { AuthApi } from '@/api/auth';
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
     redirect: '/home'
-  },
-  {
+  }, {
     path: '/home',
     name: 'Home',
-    component: HomePage
+    component: () => import('@/views/home-page.vue'),
+  }, {
+    path: '/login',
+    name: 'Login',
+    component: () => import('@/views/login-page.vue'),
+  }, {
+    path: '/verify',
+    name: 'Verify',
+    component: () => import('@/views/verify-page.vue'),
+  }, {
+    path: '/logout',
+    name: 'Logout',
+    component: () => ({/* Not a real route! */}),
+    beforeEnter: async () => {
+        try {
+            await AuthApi.logout();
+        } finally {
+            window.location.href = '/home';
+        }
+    }
+  }, {
+    path: '/signup',
+    name: 'Signup',
+    component: () => import('@/views/register-page.vue'),
+  }, {
+    path: '/legal',
+    name: 'Legal',
+    component: () => import('@/views/legal-page.vue'),
+  },{
+    path: '/:pathMatch(.*)*',
+    redirect: '/home'
   }
 ]
 
