@@ -57,10 +57,13 @@ def check_in(request: Request):
     if (is_birthday):
         last_birth_check_in_query = "SELECT last_check_in FROM streaks WHERE user_id = %s AND streak_type = 'birthday'"
         cur.execute(last_birth_check_in_query, (user_id,))
-        last_birth_check_in, = cur.fetchone()
+        last_birth_check_in = cur.fetchone()
 
-        local_birthday_check_in = last_birth_check_in - timedelta(minutes=user_offset_minutes)
-        if (local_birthday_check_in.date() == local_today.date().replace(year=local_today.year - 1)):
+        if (last_birth_check_in is None):
+            create_streak_query = 'INSERT INTO streaks (user_id, streak_type, current_streak, last_check_in) VALUES (%s, %s, 1, NOW())'
+            cur.execute(create_streak_query, (user_id, 'birthday'))
+            cnx.commit()
+        elif (last_birth_check_in - timedelta(minutes=user_offset_minutes) == local_today.date().replace(year=local_today.year - 1)):
             increment_streak(cnx, user_id, 'birthday')
         else:
             reset_streak(cnx, user_id, 'birthday')
