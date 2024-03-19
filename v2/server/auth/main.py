@@ -3,6 +3,7 @@ from fastapi import Request, Response
 import os
 
 from shared.auth import create_access_token, OptimisticAuthMiddleware
+from shared.constants import DEMO_USER_ID
 from shared.cors_app import CorsApp
 from shared.db import get_db_connection
 
@@ -57,6 +58,10 @@ async def login(request: Request):
     
     if email is None:
         return {'error': 'email_not_provided'}
+    elif email == 'demo@isitmybirth.day':
+        
+        # Avoid the database for the demo user
+        return {'success': True}
     
     cnx = get_db_connection()
     cur = cnx.cursor()
@@ -77,6 +82,18 @@ async def verify(request: Request, response: Response):
     
     if login_secret is None:
         return {'error': 'login_secret_not_provided'}
+    elif login_secret == 'demo@isitmybirth.day':
+        access_token, expiry = create_access_token(DEMO_USER_ID)
+    
+        response.set_cookie(
+            'access_token',
+            f'Bearer {access_token}',
+            httponly=True,
+            expires=expiry,
+            secure=environment == 'prod',
+            samesite='strict' if environment == 'prod' else 'lax',
+        )
+        return {'success': True}
     
     cnx = get_db_connection()
     cur = cnx.cursor()
@@ -120,6 +137,12 @@ if environment == 'dev':
 async def me(request: Request):
     if (request.state.user_id is None):
         return {'error': 'not_logged_in'}
+    elif (request.state.user_id == DEMO_USER_ID):
+        return {
+            'id': DEMO_USER_ID,
+            'name': 'Demo User',
+            'birthday': '6-9',
+        }
     
     cnx = get_db_connection()
     cur = cnx.cursor()

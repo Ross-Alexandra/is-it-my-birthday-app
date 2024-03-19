@@ -33,11 +33,13 @@ class OptimisticAuthMiddleware(BaseHTTPMiddleware):
         request.state.user_id = None
         
         auth = request.cookies.get('access_token', '')
+        print(auth)
 
         if auth.startswith('Bearer'):
             auth = auth.split(' ')[1]
             payload = verify_jwt(auth)
             
+            print(payload)
             if payload is not None:
                 request.state.user_id = payload
                 

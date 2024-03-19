@@ -3,6 +3,7 @@ from fastapi import Request
 import os
 
 from shared.auth import OptimisticAuthMiddleware
+from shared.constants import DEMO_USER_ID
 from shared.cors_app import CorsApp
 from shared.db import get_db_connection
 
@@ -19,7 +20,7 @@ def check_in(request: Request):
     user_id = request.state.user_id
     user_offset_minutes = int(request.headers.get('X-USER-TIMEZONE', 0))
     
-    if (user_id is None):
+    if user_id is None or user_id == DEMO_USER_ID:
         return {'error': 'not_logged_in'}
     
     cnx = get_db_connection()
